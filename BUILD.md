@@ -58,7 +58,7 @@ workflow, see [CONTRIBUTING.md](CONTRIBUTING.md). For a code map, see
 ## Local build
 
 ```bash
-git clone https://github.com/OWNER/REPO.git
+git clone https://github.com/OmHackz/Helio.git
 cd REPO
 
 dotnet restore Helio.csproj
@@ -170,5 +170,3 @@ Device-code flow does not need a redirect URI or client secret.
 - `helio update` is disabled. Rebuild from source or download a newer release.
 - HelioMC is an unofficial fork and is not affiliated with McSH, Mojang,
   Microsoft, or Ely.by.
-- Before publishing a new repository, complete
-  [`.github/SETUP.md`](.github/SETUP.md).

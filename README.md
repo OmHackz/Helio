@@ -1,22 +1,12 @@
-<!--
-  Repository setup: this project is prepared for a brand-new GitHub repository.
-  Replace OWNER/REPO in this file (and in .github/ISSUE_TEMPLATE/config.yml,
-  CODE_OF_CONDUCT.md, SECURITY.md, and SUPPORT.md) after creating it, e.g.:
-
-    grep -rl 'OWNER/REPO' . --exclude-dir=.git | xargs sed -i 's|OWNER/REPO|your-name/heliomc|g'
-
-  See .github/SETUP.md for the full checklist.
--->
-
 <div align="center">
 
 # HelioMC
 
 **Minecraft in your terminal. No Electron. No splash screens. Just `helio`.**
 
-[![Build](https://github.com/OWNER/REPO/actions/workflows/build.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/build.yml)
-[![Release](https://github.com/OWNER/REPO/actions/workflows/release.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/release.yml)
-[![CodeQL](https://github.com/OWNER/REPO/actions/workflows/codeql.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/codeql.yml)
+[![Build](https://github.com/OmHackz/Helio/actions/workflows/build.yml/badge.svg)](https://github.com/OmHackz/Helio/actions/workflows/build.yml)
+[![Release](https://github.com/OmHackz/Helio/actions/workflows/release.yml/badge.svg)](https://github.com/OmHackz/Helio/actions/workflows/release.yml)
+[![CodeQL](https://github.com/OmHackz/Helio/actions/workflows/codeql.yml/badge.svg)](https://github.com/OmHackz/Helio/actions/workflows/codeql.yml)
 [![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 [![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS%20%7C%20Windows-orange)](#install)
 [![License](https://img.shields.io/badge/license-see%20LICENSE-lightgrey)](LICENSE)
@@ -106,7 +96,7 @@ Unselect it whenever you want a clean prompt:
 ### Prebuilt binaries
 
 Download the archive for your platform from
-[Releases](https://github.com/OWNER/REPO/releases/latest).
+[Releases](https://github.com/OmHackz/Helio/releases/latest).
 
 | Platform | Asset | Binary |
 |---|---|---|
@@ -149,7 +139,7 @@ helio version
 Requires the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
 
 ```bash
-git clone https://github.com/OWNER/REPO.git
+git clone https://github.com/OmHackz/Helio.git
 cd REPO
 
 # Pick the runtime identifier for your machine:

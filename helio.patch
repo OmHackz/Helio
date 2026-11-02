@@ -1,13 +1,886 @@
+diff --git a/.editorconfig b/.editorconfig
+new file mode 100644
+index 0000000..d563c3a
+--- /dev/null
++++ b/.editorconfig
+@@ -0,0 +1,48 @@
++root = true
++
++[*]
++charset = utf-8
++end_of_line = lf
++insert_final_newline = true
++trim_trailing_whitespace = true
++indent_style = space
++indent_size = 4
++
++[*.{json,yml,yaml,md,csproj,props,targets}]
++indent_size = 2
++
++[*.md]
++trim_trailing_whitespace = false
++
++[*.bat]
++end_of_line = crlf
++
++[*.cs]
++indent_size = 4
++dotnet_sort_system_directives_first = true
++dotnet_separate_import_directive_groups = false
++csharp_new_line_before_open_brace = all
++csharp_new_line_before_else = true
++csharp_new_line_before_catch = true
++csharp_new_line_before_finally = true
++csharp_new_line_before_members_in_object_initializers = true
++csharp_new_line_before_members_in_anonymous_types = true
++csharp_new_line_between_query_expression_clauses = true
++csharp_prefer_braces = true:silent
++csharp_prefer_simple_using_statement = true:suggestion
++csharp_style_namespace_declarations = file_scoped:suggestion
++csharp_style_var_for_built_in_types = true:suggestion
++csharp_style_var_when_type_is_apparent = true:suggestion
++csharp_style_var_elsewhere = false:suggestion
++dotnet_style_qualification_for_field = false:suggestion
++dotnet_style_qualification_for_property = false:suggestion
++dotnet_style_qualification_for_method = false:suggestion
++dotnet_style_qualification_for_event = false:suggestion
++dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
++dotnet_style_predefined_type_for_member_access = true:suggestion
++
++[*.{yml,yaml}]
++indent_size = 2
++
++[.gitmessage]
++insert_final_newline = true
+diff --git a/.gitattributes b/.gitattributes
+new file mode 100644
+index 0000000..fbde9fe
+--- /dev/null
++++ b/.gitattributes
+@@ -0,0 +1,16 @@
++* text=auto eol=lf
++
++*.bat text eol=crlf
++*.cmd text eol=crlf
++*.ps1 text eol=crlf
++
++*.png binary
++*.jpg binary
++*.jpeg binary
++*.gif binary
++*.ico binary
++*.jar binary
++*.zip binary
++
++*.patch text eol=lf
++helio.patch text eol=lf
+diff --git a/.github/ISSUE_TEMPLATE/bug_report.yml b/.github/ISSUE_TEMPLATE/bug_report.yml
+new file mode 100644
+index 0000000..2984aa1
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/bug_report.yml
+@@ -0,0 +1,116 @@
++name: Bug report
++description: Report a crash, failed launch, broken command, or other unexpected behavior.
++title: "[Bug]: "
++labels: ["bug", "needs triage"]
++body:
++  - type: markdown
++    attributes:
++      value: |
++        Thanks for taking the time to report a bug.
++
++        **Before you continue**
++        - Search [existing issues](https://github.com/OmHackz/Helio/issues?q=is%3Aissue) first.
++        - Try the latest release.
++        - **Never paste account tokens, passwords, or `accounts.json` contents.** Redact UUIDs if you prefer.
++
++  - type: input
++    id: version
++    attributes:
++      label: HelioMC version
++      description: Paste the output of `helio version`.
++      placeholder: "HelioMC v1.0.6 (Ely.by build) / .NET 8.0.33 / Arch Linux"
++    validations:
++      required: true
++
++  - type: dropdown
++    id: os
++    attributes:
++      label: Operating system
++      options:
++        - Linux (x64)
++        - Linux (arm64)
++        - macOS (Apple Silicon)
++        - macOS (Intel)
++        - Windows (x64)
++        - Other / unsure
++    validations:
++      required: true
++
++  - type: dropdown
++    id: install
++    attributes:
++      label: How did you install HelioMC?
++      options:
++        - Prebuilt release binary
++        - Built from source
++        - Running with the .NET SDK (`dotnet run`)
++        - Other
++    validations:
++      required: true
++
++  - type: dropdown
++    id: account
++    attributes:
++      label: Account type
++      description: Which sign-in method were you using when the problem happened?
++      options:
++        - Ely.by (browser OAuth)
++        - Ely.by (password fallback)
++        - No account / offline
++        - Not related to sign-in
++    validations:
++      required: true
++
++  - type: textarea
++    id: what-happened
++    attributes:
++      label: What happened?
++      description: A clear and concise description of the problem.
++      placeholder: "When I run `helio launch`, the game exits immediately with..."
++    validations:
++      required: true
++
++  - type: textarea
++    id: steps
++    attributes:
++      label: Steps to reproduce
++      description: List the exact commands you ran, in order.
++      placeholder: |
++        1. helio auth elyby
++        2. helio instance create
++        3. helio launch
++        4. ...
++    validations:
++      required: true
++
++  - type: textarea
++    id: expected
++    attributes:
++      label: Expected behavior
++      description: What did you expect to happen instead?
++    validations:
++      required: true
++
++  - type: textarea
++    id: logs
++    attributes:
++      label: Logs and error output
++      description: |
++        Paste terminal output, stack traces, or the latest crash report.
++        Run `helio instance crash` to find the newest crash file.
++        Remove tokens, passwords, and personal paths before posting.
++      render: shell
++    validations:
++      required: false
++
++  - type: checkboxes
++    id: checks
++    attributes:
++      label: Checklist
++      options:
++        - label: I searched existing issues and did not find a duplicate.
++          required: true
++        - label: I am using the latest available build.
++          required: true
++        - label: I removed account tokens, passwords, and other secrets from this report.
++          required: true
+diff --git a/.github/ISSUE_TEMPLATE/config.yml b/.github/ISSUE_TEMPLATE/config.yml
+new file mode 100644
+index 0000000..e977212
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/config.yml
+@@ -0,0 +1,14 @@
++blank_issues_enabled: false
++
++contact_links:
++  - name: 💬 Discussions
++    url: https://github.com/OmHackz/Helio/discussions
++    about: Ask open-ended questions, share setups, and suggest ideas.
++
++  - name: 🔐 Report a security vulnerability
++    url: https://github.com/OmHackz/Helio/security/advisories/new
++    about: Report security issues privately. Do not open a public issue.
++
++  - name: 🧭 Ely.by account help
++    url: https://ely.by/help
++    about: For account, skin, or Ely.by service issues outside HelioMC.
+diff --git a/.github/ISSUE_TEMPLATE/feature_request.yml b/.github/ISSUE_TEMPLATE/feature_request.yml
+new file mode 100644
+index 0000000..10ac76a
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/feature_request.yml
+@@ -0,0 +1,61 @@
++name: Feature request
++description: Suggest a new command, option, workflow, or quality-of-life improvement.
++title: "[Feature]: "
++labels: ["enhancement"]
++body:
++  - type: markdown
++    attributes:
++      value: |
++        Thanks for helping shape HelioMC. Please describe the problem first —
++        the best feature requests explain *why*, not only *what*.
++
++  - type: textarea
++    id: problem
++    attributes:
++      label: What problem does this solve?
++      description: What is frustrating or missing today?
++      placeholder: "I keep forgetting which instance is selected, and..."
++    validations:
++      required: true
++
++  - type: textarea
++    id: proposal
++    attributes:
++      label: Proposed solution
++      description: Describe the command, flag, or behavior you would like.
++      placeholder: |
++        `helio instance select` could accept...
++    validations:
++      required: true
++
++  - type: textarea
++    id: alternatives
++    attributes:
++      label: Alternatives considered
++      description: Any workarounds or different designs you have tried?
++    validations:
++      required: false
++
++  - type: dropdown
++    id: area
++    attributes:
++      label: Area
++      options:
++        - Instance management
++        - Mods / modpacks / content
++        - Ely.by authentication
++        - Launching / Java
++        - UI, theme, or prompt
++        - Documentation
++        - Build, CI, or packaging
++        - Other
++    validations:
++      required: true
++
++  - type: checkboxes
++    id: checks
++    attributes:
++      label: Checklist
++      options:
++        - label: I searched existing issues and discussions for this idea.
++          required: true
+diff --git a/.github/ISSUE_TEMPLATE/question.yml b/.github/ISSUE_TEMPLATE/question.yml
+new file mode 100644
+index 0000000..01f854c
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/question.yml
+@@ -0,0 +1,54 @@
++name: Question
++description: Ask how to use HelioMC, configure an instance, or troubleshoot a setup.
++title: "[Question]: "
++labels: ["question"]
++body:
++  - type: markdown
++    attributes:
++      value: |
++        For open-ended chat, consider
++        [Discussions](https://github.com/OmHackz/Helio/discussions) instead.
++        Use this form when you have a specific question that can be answered
++        and closed.
++
++  - type: input
++    id: version
++    attributes:
++      label: HelioMC version
++      description: Output of `helio version`.
++      placeholder: "HelioMC v1.0.6 (Ely.by build)"
++    validations:
++      required: true
++
++  - type: dropdown
++    id: topic
++    attributes:
++      label: Topic
++      options:
++        - Installing or updating
++        - Ely.by sign-in
++        - Creating or selecting instances
++        - Mods, modpacks, resource packs, shaders
++        - Java or launch failures
++        - Themes, language, or prompt
++        - Building from source
++        - Other
++    validations:
++      required: true
++
++  - type: textarea
++    id: question
++    attributes:
++      label: Your question
++      description: Include what you have already tried.
++    validations:
++      required: true
++
++  - type: textarea
++    id: context
++    attributes:
++      label: Relevant output or config
++      description: Redact tokens, passwords, and personal paths.
++      render: shell
++    validations:
++      required: false
+diff --git a/.github/dependabot.yml b/.github/dependabot.yml
+new file mode 100644
+index 0000000..94e40f0
+--- /dev/null
++++ b/.github/dependabot.yml
+@@ -0,0 +1,27 @@
++version: 2
++updates:
++  - package-ecosystem: nuget
++    directory: "/"
++    schedule:
++      interval: weekly
++      day: monday
++    open-pull-requests-limit: 5
++    labels:
++      - dependencies
++    groups:
++      nuget:
++        patterns:
++          - "*"
++
++  - package-ecosystem: github-actions
++    directory: "/"
++    schedule:
++      interval: weekly
++      day: monday
++    open-pull-requests-limit: 5
++    labels:
++      - dependencies
++    groups:
++      actions:
++        patterns:
++          - "*"
+diff --git a/.github/pull_request_template.md b/.github/pull_request_template.md
+new file mode 100644
+index 0000000..42bccd4
+--- /dev/null
++++ b/.github/pull_request_template.md
+@@ -0,0 +1,48 @@
++# Pull request
++
++## Summary
++
++<!-- What does this change do, and why? Keep it short but specific. -->
++
++## Type of change
++
++- [ ] Bug fix
++- [ ] New feature
++- [ ] Breaking change
++- [ ] Refactor / cleanup
++- [ ] Documentation
++- [ ] Build, CI, or packaging
++- [ ] Translation
++- [ ] Theme or UI
++
++## Related issues
++
++<!-- e.g. Closes #12, Relates to #34 -->
++
++## How was it tested?
++
++<!--
++List the commands and platforms you tested. Examples:
++- `dotnet build -c Release`
++- `helio auth status`
++- `helio instance select <name>` on Arch Linux
++- Launched a Fabric 1.21 instance with an Ely.by account
++-->
++
++- OS:
++- .NET SDK version:
++- Tested commands:
++
++## Checklist
++
++- [ ] I read `CONTRIBUTING.md`.
++- [ ] The change is focused and does not include unrelated refactors.
++- [ ] `dotnet build -c Release` succeeds.
++- [ ] I tested the affected command(s) manually.
++- [ ] I updated documentation, help text, and translations where needed.
++- [ ] I added no tokens, passwords, personal paths, or other secrets.
++- [ ] New dependencies were discussed in an issue first (if applicable).
++
++## Screenshots / terminal output
++
++<!-- Optional, but very helpful for UI or prompt changes. -->
+diff --git a/.github/workflows/build.yml b/.github/workflows/build.yml
+new file mode 100644
+index 0000000..7f419f4
+--- /dev/null
++++ b/.github/workflows/build.yml
+@@ -0,0 +1,134 @@
++name: Build
++
++on:
++  push:
++    branches: [main, master]
++  pull_request:
++    branches: [main, master]
++  workflow_dispatch:
++
++concurrency:
++  group: build-${{ github.workflow }}-${{ github.ref }}
++  cancel-in-progress: true
++
++permissions:
++  contents: read
++
++env:
++  DOTNET_NOLOGO: "true"
++  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
++  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
++
++jobs:
++  check:
++    name: Build & smoke test
++    runs-on: ubuntu-latest
++    steps:
++      - name: Checkout
++        uses: actions/checkout@v4
++
++      - name: Set up .NET
++        uses: actions/setup-dotnet@v4
++        with:
++          dotnet-version: 8.0.x
++          cache: true
++          cache-dependency-path: Helio.csproj
++
++      - name: Restore
++        run: dotnet restore Helio.csproj
++
++      - name: Build
++        run: dotnet build Helio.csproj -c Release --no-restore
++
++      - name: Validate JSON resources
++        shell: bash
++        run: |
++          set -euo pipefail
++          for file in Languages/*.json; do
++            python3 -m json.tool "$file" > /dev/null
++            echo "valid: $file"
++          done
++
++      - name: Smoke test
++        run: dotnet bin/Release/net8.0/helio.dll version
++
++  publish:
++    name: Publish ${{ matrix.rid }}
++    needs: check
++    runs-on: ${{ matrix.os }}
++    strategy:
++      fail-fast: false
++      matrix:
++        include:
++          - os: ubuntu-latest
++            rid: linux-x64
++          - os: ubuntu-latest
++            rid: linux-arm64
++          - os: windows-latest
++            rid: win-x64
++          - os: macos-15-intel
++            rid: osx-x64
++          - os: macos-15
++            rid: osx-arm64
++    steps:
++      - name: Checkout
++        uses: actions/checkout@v4
++
++      - name: Set up .NET
++        uses: actions/setup-dotnet@v4
++        with:
++          dotnet-version: 8.0.x
++          cache: true
++          cache-dependency-path: Helio.csproj
++
++      - name: Read version
++        id: version
++        shell: bash
++        run: |
++          set -euo pipefail
++          version="$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Helio.csproj | head -n1)"
++          test -n "$version"
++          echo "value=$version" >> "$GITHUB_OUTPUT"
++
++      - name: Publish
++        shell: bash
++        run: |
++          set -euo pipefail
++          dotnet publish Helio.csproj \
++            -c Release \
++            -r "${{ matrix.rid }}" \
++            --self-contained true \
++            -p:PublishSingleFile=true \
++            -p:EnableCompressionInSingleFile=true \
++            -p:IncludeNativeLibrariesForSelfExtract=true \
++            -p:PublishReadyToRun=false \
++            -p:DebugType=None \
++            -p:DebugSymbols=false \
++            -o publish
++
++      - name: Package (Unix)
++        if: runner.os != 'Windows'
++        shell: bash
++        run: |
++          set -euo pipefail
++          cd publish
++          tar -czf "../helio-${{ steps.version.outputs.value }}-${{ matrix.rid }}.tar.gz" .
++          cd ..
++          ls -lh helio-*.tar.gz
++
++      - name: Package (Windows)
++        if: runner.os == 'Windows'
++        shell: pwsh
++        run: |
++          Compress-Archive -Path publish/* -DestinationPath "helio-${{ steps.version.outputs.value }}-${{ matrix.rid }}.zip"
++          Get-ChildItem helio-*.zip | Format-Table Name, Length
++
++      - name: Upload build artifact
++        uses: actions/upload-artifact@v4
++        with:
++          name: helio-${{ matrix.rid }}
++          path: |
++            helio-*.tar.gz
++            helio-*.zip
++          if-no-files-found: error
++          retention-days: 14
+diff --git a/.github/workflows/codeql.yml b/.github/workflows/codeql.yml
+new file mode 100644
+index 0000000..29e0c11
+--- /dev/null
++++ b/.github/workflows/codeql.yml
+@@ -0,0 +1,47 @@
++name: CodeQL
++
++on:
++  push:
++    branches: [main, master]
++  pull_request:
++    branches: [main, master]
++  schedule:
++    - cron: "17 4 * * 1"
++  workflow_dispatch:
++
++permissions:
++  actions: read
++  contents: read
++  security-events: write
++
++jobs:
++  analyze:
++    name: Analyze C#
++    runs-on: ubuntu-latest
++    timeout-minutes: 30
++    strategy:
++      fail-fast: false
++      matrix:
++        language: [csharp]
++    steps:
++      - name: Checkout
++        uses: actions/checkout@v4
++
++      - name: Set up .NET
++        uses: actions/setup-dotnet@v4
++        with:
++          dotnet-version: 8.0.x
++
++      - name: Initialize CodeQL
++        uses: github/codeql-action/init@v3
++        with:
++          languages: ${{ matrix.language }}
++          queries: security-and-quality
++
++      - name: Build
++        run: dotnet build Helio.csproj -c Release
++
++      - name: Perform CodeQL analysis
++        uses: github/codeql-action/analyze@v3
++        with:
++          category: "/language:${{ matrix.language }}"
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+new file mode 100644
+index 0000000..457f0cc
+--- /dev/null
++++ b/.github/workflows/release.yml
+@@ -0,0 +1,150 @@
++name: Release
++
++on:
++  push:
++    tags:
++      - "v*"
++
++concurrency:
++  group: release-${{ github.ref }}
++  cancel-in-progress: false
++
++permissions:
++  contents: write
++
++env:
++  DOTNET_NOLOGO: "true"
++  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
++  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
++
++jobs:
++  verify:
++    name: Verify release tag
++    runs-on: ubuntu-latest
++    steps:
++      - name: Checkout
++        uses: actions/checkout@v4
++
++      - name: Check tag matches Helio.csproj
++        shell: bash
++        run: |
++          set -euo pipefail
++          version="$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Helio.csproj | head -n1)"
++          tag="${GITHUB_REF_NAME#v}"
++          echo "project version: $version"
++          echo "git tag:         $tag"
++          if [ "$version" != "$tag" ]; then
++            echo "::error::Tag v$tag does not match <Version>$version</Version> in Helio.csproj."
++            exit 1
++          fi
++
++  publish:
++    name: Publish ${{ matrix.rid }}
++    needs: verify
++    runs-on: ${{ matrix.os }}
++    strategy:
++      fail-fast: false
++      matrix:
++        include:
++          - os: ubuntu-latest
++            rid: linux-x64
++          - os: ubuntu-latest
++            rid: linux-arm64
++          - os: windows-latest
++            rid: win-x64
++          - os: macos-15-intel
++            rid: osx-x64
++          - os: macos-15
++            rid: osx-arm64
++    steps:
++      - name: Checkout
++        uses: actions/checkout@v4
++
++      - name: Set up .NET
++        uses: actions/setup-dotnet@v4
++        with:
++          dotnet-version: 8.0.x
++          cache: true
++          cache-dependency-path: Helio.csproj
++
++      - name: Read version
++        id: version
++        shell: bash
++        run: |
++          set -euo pipefail
++          version="$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Helio.csproj | head -n1)"
++          test -n "$version"
++          echo "value=$version" >> "$GITHUB_OUTPUT"
++
++      - name: Publish
++        shell: bash
++        run: |
++          set -euo pipefail
++          dotnet publish Helio.csproj \
++            -c Release \
++            -r "${{ matrix.rid }}" \
++            --self-contained true \
++            -p:PublishSingleFile=true \
++            -p:EnableCompressionInSingleFile=true \
++            -p:IncludeNativeLibrariesForSelfExtract=true \
++            -p:PublishReadyToRun=false \
++            -p:DebugType=None \
++            -p:DebugSymbols=false \
++            -o publish
++
++      - name: Package (Unix)
++        if: runner.os != 'Windows'
++        shell: bash
++        run: |
++          set -euo pipefail
++          cd publish
++          tar -czf "../helio-${{ steps.version.outputs.value }}-${{ matrix.rid }}.tar.gz" .
++          cd ..
++          ls -lh helio-*.tar.gz
++
++      - name: Package (Windows)
++        if: runner.os == 'Windows'
++        shell: pwsh
++        run: |
++          Compress-Archive -Path publish/* -DestinationPath "helio-${{ steps.version.outputs.value }}-${{ matrix.rid }}.zip"
++          Get-ChildItem helio-*.zip | Format-Table Name, Length
++
++      - name: Upload release artifact
++        uses: actions/upload-artifact@v4
++        with:
++          name: helio-${{ matrix.rid }}
++          path: |
++            helio-*.tar.gz
++            helio-*.zip
++          if-no-files-found: error
++          retention-days: 7
++
++  release:
++    name: Create GitHub release
++    needs: publish
++    runs-on: ubuntu-latest
++    permissions:
++      contents: write
++    steps:
++      - name: Download artifacts
++        uses: actions/download-artifact@v4
++        with:
++          path: dist
++          pattern: helio-*
++          merge-multiple: true
++
++      - name: Generate checksums
++        shell: bash
++        run: |
++          set -euo pipefail
++          cd dist
++          sha256sum * > SHA256SUMS.txt
++          cat SHA256SUMS.txt
++
++      - name: Publish release
++        uses: softprops/action-gh-release@v2
++        with:
++          files: dist/*
++          generate_release_notes: true
++          prerelease: ${{ contains(github.ref_name, '-') }}
++          fail_on_unmatched_files: true
+diff --git a/.github/workflows/stale.yml b/.github/workflows/stale.yml
+new file mode 100644
+index 0000000..aa098c8
+--- /dev/null
++++ b/.github/workflows/stale.yml
+@@ -0,0 +1,39 @@
++name: Stale issues
++
++on:
++  schedule:
++    - cron: "30 2 * * 1"
++  workflow_dispatch:
++
++permissions:
++  issues: write
++  pull-requests: write
++
++jobs:
++  stale:
++    runs-on: ubuntu-latest
++    steps:
++      - name: Mark and close stale issues
++        uses: actions/stale@v9
++        with:
++          days-before-issue-stale: 60
++          days-before-issue-close: 14
++          days-before-pr-stale: 45
++          days-before-pr-close: 14
++          stale-issue-label: stale
++          stale-pr-label: stale
++          exempt-issue-labels: pinned,security,confirmed,good first issue
++          exempt-pr-labels: pinned,security,work in progress
++          stale-issue-message: |
++            This issue has been inactive for 60 days. It will close in 14 days
++            unless there is new activity. If it is still relevant, leave a
++            comment with an update — logs and your `helio version` output help.
++          close-issue-message: |
++            Closing due to inactivity. Reopen or file a new issue if the problem
++            returns, and include fresh logs.
++          stale-pr-message: |
++            This pull request has been inactive for 45 days. It will close in
++            14 days unless there is new activity.
++          close-pr-message: |
++            Closing due to inactivity. Feel free to reopen when you are ready to
++            continue.
+diff --git a/.gitignore b/.gitignore
+index f420d44..4be1766 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -10,6 +10,15 @@ installer/*.wixpdb
+ ## Log files
+ *.jar.log
+ 
++## Local publish / archive output
++out/
++*.tar.gz
++*.zip
++
++## Local environment
++.env
++.env.*
++
+ ## WiX
+ .wix/
+ 
+diff --git a/.gitmessage b/.gitmessage
+new file mode 100644
+index 0000000..3910001
+--- /dev/null
++++ b/.gitmessage
+@@ -0,0 +1,17 @@
++# <type>(<scope>): <short summary>
++#
++# <optional body: why the change is needed, what it affects, trade-offs>
++#
++# Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
++# Scopes: auth, instance, launch, mod, modpack, content, settings, ui, i18n, ci, docs
++#
++# Examples:
++#   feat(instance): add top-level select alias
++#   fix(auth): avoid Spectre markup crash in auth accounts
++#   docs: document Ely.by device-code sign-in
++#
++# Footer:
++#   Closes #123
++#   Co-authored-by: Name <email@example.com>
++#
++# Keep the summary under 72 characters. Use the imperative mood.
 diff --git a/BUILD.md b/BUILD.md
 new file mode 100644
-index 0000000..a4ce200
+index 0000000..bd5cb1c
 --- /dev/null
 +++ b/BUILD.md
-@@ -0,0 +1,98 @@
+@@ -0,0 +1,172 @@
 +# HelioMC — build notes
 +
 +HelioMC is an unofficial fork of [McSH](https://github.com/kalakaritzu/mcsh)
 +with a full rebrand and native [Ely.by](https://ely.by) account support.
++
++For the user-facing guide, see [README.md](README.md). For contribution
++workflow, see [CONTRIBUTING.md](CONTRIBUTING.md). For a code map, see
++[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 +
 +## Fork changes
 +
@@ -25,7 +898,8 @@ index 0000000..a4ce200
 +  disabled.
 +- Default theme is `helio` (orange accent); existing McSH settings that used
 +  the old default `crimson` are migrated to `helio` once.
-+- Added themes: `helio` (orange). Existing themes are unchanged.
++- Added theme: `helio` (orange). Existing themes are unchanged.
++- Added `select` / `use` and `deselect` / `unselect` / `none` shortcuts.
 +
 +### Ely.by support
 +
@@ -50,19 +924,86 @@ index 0000000..a4ce200
 +- `Commands/SkinCommand.cs` — points Ely.by users at account.ely.by instead of
 +  trying Mojang skin APIs.
 +
-+## Build
++## Prerequisites
 +
-+Requires the .NET 8 SDK. This machine has one at `~/.dotnet`.
++- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
++- Network access for NuGet restore
++- Git (for cloning and releases)
++
++## Local build
 +
 +```bash
-+cd ~/Projects/heliomc
-+~/.dotnet/dotnet publish -c Release -r linux-x64 --self-contained true -o out
++git clone https://github.com/OmHackz/Helio.git
++cd REPO
++
++dotnet restore Helio.csproj
++dotnet build Helio.csproj -c Release
++dotnet bin/Release/net8.0/helio.dll version
++```
++
++### Self-contained publish
++
++```bash
++dotnet publish Helio.csproj \
++  -c Release \
++  -r linux-x64 \
++  --self-contained true \
++  -p:PublishSingleFile=true \
++  -p:EnableCompressionInSingleFile=true \
++  -p:IncludeNativeLibrariesForSelfExtract=true \
++  -o out
++```
++
++Supported runtime identifiers used by CI:
++
++```text
++linux-x64  linux-arm64  osx-x64  osx-arm64  win-x64
++```
++
++Install on Linux/macOS:
++
++```bash
 +sudo install -m755 out/helio /usr/local/bin/helio
 +```
 +
-+The upstream (unpatched) McSH binary is kept at `/usr/local/bin/mcsh-upstream`
-+from the earlier install. The patched McSH/Ely.by binary remains at
-+`/usr/local/bin/mcsh` if it was installed previously.
++On Windows, run `out\helio.exe` or add `out` to your user `PATH`.
++
++## GitHub Actions
++
++The repository ships with four workflows:
++
++| Workflow | Trigger | What it does |
++|---|---|---|
++| `build.yml` | push, PR, manual | Restores, builds, validates language JSON, smoke-tests `helio version`, publishes five RIDs as artifacts |
++| `release.yml` | `v*` tag | Verifies tag vs `<Version>`, builds all platforms, writes `SHA256SUMS.txt`, creates the GitHub release |
++| `codeql.yml` | push, PR, weekly | CodeQL security and quality analysis for C# |
++| `stale.yml` | weekly, manual | Marks and closes inactive issues/PRs |
++
++Artifacts are named:
++
++```text
++helio-<version>-linux-x64.tar.gz
++helio-<version>-linux-arm64.tar.gz
++helio-<version>-osx-x64.tar.gz
++helio-<version>-osx-arm64.tar.gz
++helio-<version>-win-x64.zip
++SHA256SUMS.txt
++```
++
++### Cutting a release
++
++1. Bump `<Version>` in `Helio.csproj`.
++2. Update `CHANGELOG.md`.
++3. Commit the change.
++4. Tag and push:
++
++```bash
++git tag v1.0.6
++git push origin main --tags
++```
++
++If the tag does not match the project version, the workflow fails before
++publishing anything.
 +
 +## Use
 +
@@ -71,7 +1012,9 @@ index 0000000..a4ce200
 +helio auth elyby [alias]             # browser OAuth (device code)
 +helio auth elyby --password [alias]  # password/Yggdrasil fallback
 +helio instance create
++helio select "My Instance"           # shortcut for instance select
 +helio launch
++helio deselect                       # clear the active instance
 +```
 +
 +`auth elyby` prints a short code and a URL (`https://account.ely.by/code`),
@@ -99,9 +1042,492 @@ index 0000000..a4ce200
 +  `minecraft_server_session` is passed to Minecraft as the access token.
 +- Tokens are saved in `~/.local/share/Helio/accounts.json`; the password (when
 +  using the fallback) is never stored.
-+- `helio update` is disabled. Rebuild from this folder instead.
++- `helio update` is disabled. Rebuild from source or download a newer release.
 +- HelioMC is an unofficial fork and is not affiliated with McSH, Mojang,
 +  Microsoft, or Ely.by.
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+new file mode 100644
+index 0000000..126c498
+--- /dev/null
++++ b/CHANGELOG.md
+@@ -0,0 +1,71 @@
++# Changelog
++
++All notable changes to HelioMC are documented here.
++
++The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
++and this project adheres to [Semantic Versioning](https://semver.org/).
++
++## [Unreleased]
++
++### Added
++
++- GitHub Actions workflows for CI builds, tagged releases, CodeQL analysis, and
++  stale-issue cleanup.
++- Issue forms, pull-request template, commit message template, and repository
++  setup checklist.
++- Top-level `select` / `use` shortcuts for `instance select`.
++- This changelog, contribution guide, security policy, support guide, and code
++  of conduct.
++
++## [1.0.6] — 2026-11-02
++
++### Added
++
++- Native **Ely.by** account support.
++  - OAuth 2.0 device-code sign-in (`helio auth elyby`).
++  - Automatic token refresh with long-lived Ely.by tokens.
++  - Password/Yggdrasil sign-in as an explicit fallback
++    (`helio auth elyby --password`).
++  - authlib-injector download, caching, and SHA-256 verification.
++  - Provider-aware account status and listing.
++- **HelioMC rebrand** from the upstream McSH project.
++  - CLI and binary renamed to `helio`.
++  - C# namespace and project renamed to `Helio` / `Helio.csproj`.
++  - New `HELIO` startup banner with an orange gradient.
++  - New data directory (`~/.local/share/Helio`) with a one-time migration from
++    the legacy McSH directory.
++- New `helio` colour theme with an orange accent, set as the default.
++- Instance deselection: `instance deselect`, plus `unselect`, `none`, and `off`
++  aliases and a top-level `deselect` shortcut.
++- Top-level `select` and `use` shortcuts for the active instance.
++- GitHub Actions release automation producing Linux x64/arm64, macOS x64/arm64,
++  and Windows x64 artifacts with checksums.
++
++### Changed
++
++- Default theme migrated from `crimson` to `helio` once for existing installs.
++- Help text, completions, version output, and documentation now use HelioMC
++  branding.
++- `helio update` reports that self-update is disabled for this local fork.
++- Upstream release checks were removed from startup.
++- User-Agent strings changed to `Helio-Launcher`.
++
++### Fixed
++
++- Spectre markup crash in `auth accounts` and `auth logout` caused by an
++  unclosed markup tag.
++- Quick-launch commands now load the persisted session, so `helio deselect`
++  works outside the REPL.
++- Quick-select prompt no longer shows a stale instance name after deselection.
++
++### Removed
++
++- Upstream self-update and release-notification behavior.
++
++## Upstream history
++
++HelioMC is a fork of [McSH](https://github.com/kalakaritzu/mcsh). For changes
++before the fork, see the upstream repository.
++
++[Unreleased]: https://github.com/OmHackz/Helio/compare/v1.0.6...HEAD
++[1.0.6]: https://github.com/OmHackz/Helio/releases/tag/v1.0.6
+diff --git a/CODE_OF_CONDUCT.md b/CODE_OF_CONDUCT.md
+new file mode 100644
+index 0000000..d339f3a
+--- /dev/null
++++ b/CODE_OF_CONDUCT.md
+@@ -0,0 +1,131 @@
++# Contributor Covenant Code of Conduct
++
++## Our Pledge
++
++We as members, contributors, and leaders pledge to make participation in our
++community a harassment-free experience for everyone, regardless of age, body
++size, visible or invisible disability, ethnicity, sex characteristics, gender
++identity and expression, level of experience, education, socio-economic status,
++nationality, personal appearance, race, caste, colour, religion, or sexual
++identity and orientation.
++
++We pledge to act and interact in ways that contribute to an open, welcoming,
++diverse, inclusive, and healthy community.
++
++## Our Standards
++
++Examples of behavior that contributes to a positive environment:
++
++- Demonstrating empathy and kindness toward other people
++- Being respectful of differing opinions, viewpoints, and experiences
++- Giving and gracefully accepting constructive feedback
++- Accepting responsibility and apologizing to those affected by our mistakes,
++  and learning from the experience
++- Focusing on what is best not just for us as individuals, but for the overall
++  community
++
++Examples of unacceptable behavior:
++
++- The use of sexualized language or imagery, and sexual attention or advances of
++  any kind
++- Trolling, insulting or derogatory comments, and personal or political attacks
++- Public or private harassment
++- Publishing others' private information, such as a physical or email address,
++  without their explicit permission
++- Other conduct which could reasonably be considered inappropriate in a
++  professional setting
++
++## Enforcement Responsibilities
++
++Community leaders are responsible for clarifying and enforcing our standards of
++acceptable behavior and will take appropriate and fair corrective action in
++response to any behavior that they deem inappropriate, threatening, offensive,
++or harmful.
++
++Community leaders have the right and responsibility to remove, edit, or reject
++comments, commits, code, wiki edits, issues, and other contributions that are
++not aligned to this Code of Conduct, and will communicate reasons for moderation
++decisions when appropriate.
++
++## Scope
++
++This Code of Conduct applies within all community spaces, and also applies when
++an individual is officially representing the community in public spaces.
++Examples of representing our community include using an official email address,
++posting via an official social media account, or acting as an appointed
++representative at an online or offline event.
++
++## Enforcement
++
++Instances of abusive, harassing, or otherwise unacceptable behavior may be
++reported privately to the project maintainers. Do **not** open a public issue.
++
++- Preferred: use GitHub's private reporting at
++  <https://github.com/OmHackz/Helio/security/advisories/new> and mark the report as
++  a conduct concern.
++- Alternative: contact a maintainer directly through their GitHub profile.
++
++All complaints will be reviewed and investigated promptly and fairly.
++
++All community leaders are obligated to respect the privacy and security of the
++reporter of any incident.
++
++## Enforcement Guidelines
++
++Community leaders will follow these Community Impact Guidelines in determining
++the consequences for any action they deem in violation of this Code of Conduct:
++
++### 1. Correction
++
++**Community Impact**: Use of inappropriate language or other behavior deemed
++unprofessional or unwelcome in the community.
++
++**Consequence**: A private, written warning from community leaders, providing
++clarity around the nature of the violation and an explanation of why the
++behavior was inappropriate. A public apology may be requested.
++
++### 2. Warning
++
++**Community Impact**: A violation through a single incident or series of
++actions.
++
++**Consequence**: A warning with consequences for continued behavior. No
++interaction with the people involved, including unsolicited interaction with
++those enforcing the Code of Conduct, for a specified period of time. This
++includes avoiding interactions in community spaces as well as external channels
++like social media. Violating these terms may lead to a temporary or permanent
++ban.
++
++### 3. Temporary Ban
++
++**Community Impact**: A serious violation of community standards, including
++sustained inappropriate behavior.
++
++**Consequence**: A temporary ban from any sort of interaction or public
++communication with the community for a specified period of time. No public or
++private interaction with the people involved, including unsolicited interaction
++with those enforcing the Code of Conduct, is allowed during this period.
++Violating these terms may lead to a permanent ban.
++
++### 4. Permanent Ban
++
++**Community Impact**: Demonstrating a pattern of violation of community
++standards, including sustained inappropriate behavior, harassment of an
++individual, or aggression toward or disparagement of classes of individuals.
++
++**Consequence**: A permanent ban from any sort of public interaction within the
++community.
++
++## Attribution
++
++This Code of Conduct is adapted from the
++[Contributor Covenant](https://www.contributor-covenant.org), version 2.1,
++available at
++<https://www.contributor-covenant.org/version/2/1/code_of_conduct.html>.
++
++Community Impact Guidelines were inspired by
++[Mozilla's code of conduct enforcement ladder](https://github.com/mozilla/inclusion).
++
++For answers to common questions about this code of conduct, see the FAQ at
++<https://www.contributor-covenant.org/faq>. Translations are available at
++<https://www.contributor-covenant.org/translations>.
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+new file mode 100644
+index 0000000..c945463
+--- /dev/null
++++ b/CONTRIBUTING.md
+@@ -0,0 +1,263 @@
++# Contributing to HelioMC
++
++Thanks for considering a contribution. HelioMC is a small, terminal-first
++project — issues, docs, translations, and focused pull requests are all valuable.
++
++By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
++
++## Ways to contribute
++
++- **Report bugs** with the bug report template. Include `helio version`, your
++  OS, and the exact commands you ran.
++- **Request features** with the feature request template. Explain the problem
++  before the solution.
++- **Improve docs** — README, BUILD.md, command help, or error messages.
++- **Translate** — English and Spanish live in `Languages/en.json` and
++  `Languages/es.json`.
++- **Test** — try a build on a platform or loader you use and report what breaks.
++- **Code** — bug fixes, new commands, Modrinth integrations, performance work.
++
++## Before you start
++
++1. **Search first.** Check existing issues, pull requests, and discussions.
++2. **Open an issue for anything non-trivial.** A quick issue avoids wasted work
++   on a design that does not fit the project.
++3. **Keep changes focused.** One logical change per pull request. Do not mix
++   refactors, formatting, and features.
++4. **Never commit secrets.** No tokens, passwords, `accounts.json`, or personal
++   paths. See [SECURITY.md](SECURITY.md).
++
++## Development setup
++
++### Requirements
++
++- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
++- Git
++- A terminal (HelioMC is a TUI; Windows Terminal works well)
++
++### Build and run
++
++```bash
++git clone https://github.com/OmHackz/Helio.git
++cd REPO
++
++dotnet restore Helio.csproj
++dotnet build Helio.csproj -c Release
++dotnet bin/Release/net8.0/helio.dll
++```
++
++Run a single command without the REPL:
++
++```bash
++dotnet bin/Release/net8.0/helio.dll version
++dotnet bin/Release/net8.0/helio.dll help
++```
++
++Self-contained publish:
++
++```bash
++dotnet publish Helio.csproj \
++  -c Release \
++  -r linux-x64 \
++  --self-contained true \
++  -p:PublishSingleFile=true \
++  -o out
++```
++
++Replace `linux-x64` with `linux-arm64`, `osx-arm64`, `osx-x64`, or `win-x64`.
++
++### Tests
++
++There is no automated test suite yet. Before opening a pull request, at minimum:
++
++```bash
++dotnet build Helio.csproj -c Release
++python3 -m json.tool Languages/en.json > /dev/null
++python3 -m json.tool Languages/es.json > /dev/null
++dotnet bin/Release/net8.0/helio.dll version
++dotnet bin/Release/net8.0/helio.dll help
++dotnet bin/Release/net8.0/helio.dll ref
++```
++
++Then manually exercise the command you changed, including the error path. If
++your change touches launching, test at least one real instance on a supported
++loader. If it touches auth, test both Ely.by OAuth and the password fallback
++where possible.
++
++The GitHub `Build` workflow also validates JSON resources and runs a smoke test.
++
++## Project layout
++
++| Path | Purpose |
++|---|---|
++| `Program.cs` | Entry point, REPL loop, prompt, tab completion |
++| `Commands/CommandRouter.cs` | Top-level verb dispatch and aliases |
++| `Commands/*.cs` | One class per command group |
++| `Services/AuthService.cs` | Ely.by OAuth, refresh, password fallback, accounts |
++| `Services/AuthlibInjectorService.cs` | Downloads and verifies authlib-injector |
++| `Services/GameLaunchService.cs` | Builds and starts the Minecraft process |
++| `Services/InstanceStore.cs` | Instance discovery and manifests |
++| `Services/ModrinthService.cs` | Modrinth API client |
++| `Services/JavaService.cs` | JDK detection and download |
++| `Services/PathService.cs` | Data directory and file paths |
++| `Services/SettingsService.cs` | Settings load/save and migrations |
++| `Services/LanguageService.cs` | Translation lookup |
++| `State/AppState.cs` | Active instance and session persistence |
++| `Models/` | Settings, accounts, instances, caches |
++| `Languages/` | `en.json`, `es.json` |
++| `UiTheme.cs` | Theme definitions and accent colours |
++
++## Coding guidelines
++
++- **C# style** follows the surrounding code: file-scoped namespaces, four-space
++  indentation, `var` when the type is obvious, and expression-bodied members for
++  small helpers.
++- **Async** — use `async`/`await` and `Task` for I/O. Do not block on `.Result`.
++- **Errors** — catch narrowly. User-facing failures should print a clear,
++  escaped message rather than a stack trace. Use `Markup.Escape` for dynamic
++  values in Spectre markup.
++- **Spectre markup** — close every `[tag]`. Interpolated markup like
++  `"[dim]... {value}[/]"` breaks when `value` contains brackets; escape it.
++- **No new dependencies** without discussing the trade-off in an issue. The
++  project deliberately stays small.
++- **Platforms** — guard OS-specific behavior with `PlatformHelper`; do not
++  assume Linux.
++- **Compatibility** — data migrations must be one-time and backward compatible.
++  Never delete user data without a backup or explicit confirmation.
++- **Security** — do not log tokens, passwords, or full account files. Keep
++  token refresh paths provider-aware.
++
++### Adding a command
++
++1. Add the verb to the dispatch switch in `Commands/CommandRouter.cs`.
++2. Implement it in the appropriate `Commands/*.cs` group.
++3. Add a usage line and a `helio ref` entry in `Commands/HelpCommand.cs`.
++4. Add help strings to both `Languages/en.json` and `Languages/es.json`.
++5. Add tab completions in `Program.cs` (`GetCompletions`).
++6. Update `README.md` if the command is user-facing.
++7. Test the command, its aliases, and its failure modes.
++
++### Translations
++
++- Add the key to **both** language files. `LanguageService` falls back to the
++  key itself, which makes missing entries obvious.
++- Keep placeholders and Spectre markup intact.
++- Match the tone: direct, short, no exclamation marks.
++- Validate the JSON before committing:
++
++```bash
++python3 -m json.tool Languages/en.json > /dev/null
++python3 -m json.tool Languages/es.json > /dev/null
++```
++
++### Themes
++
++Themes are defined in `UiTheme.cs` and the banner gradient in
++`Services/BannerService.cs`. A theme needs:
++
++- a unique key in `UiTheme.Themes`
++- accent colours that render acceptably on dark and light terminals
++- a banner gradient entry (or a sensible default)
++
++The default is `helio` (orange). Do not change the default without discussion.
++
++## Commit conventions
++
++HelioMC uses [Conventional Commits](https://www.conventionalcommits.org/):
++
++```text
++<type>(<scope>): <short summary>
++
++<optional body>
++
++<optional footer>
++```
++
++Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`,
++`ci`, `chore`, `revert`.
++
++Scopes: `auth`, `instance`, `launch`, `mod`, `modpack`, `content`, `settings`,
++`ui`, `i18n`, `ci`, `docs`.
++
++Examples:
++
++```text
++feat(instance): add top-level select alias
++fix(auth): avoid Spectre markup crash in auth accounts
++docs: document the Ely.by device-code flow
++ci: publish linux-arm64 artifacts
++```
++
++Guidelines:
++
++- Summary in the imperative mood, under 72 characters.
++- Explain *why* in the body when the change is not obvious.
++- Reference issues in the footer: `Closes #42`.
++- Keep commits buildable. Squash fixups before requesting review if asked.
++
++To use the included message template:
++
++```bash
++git config commit.template .gitmessage
++```
++
++### Branch names
++
++Use a short prefix:
++
++```text
++feat/instance-select-alias
++fix/auth-markup-crash
++docs/elyby-oauth
++ci/release-artifacts
++```
++
++## Pull request process
++
++1. Fork the repository and create a branch from `main` (or `master`).
++2. Make the change, build it, and test it.
++3. Update docs, help text, translations, and completions together.
++4. Open a pull request using the template. Fill in the testing section.
++5. Keep the PR focused; respond to review comments with new commits.
++6. A maintainer will squash-merge when approved.
++
++A PR is ready when:
++
++- `dotnet build -c Release` succeeds.
++- Language JSON is valid.
++- The affected command works, including its aliases and errors.
++- No secrets or personal paths are included.
++- Documentation and translations are updated.
++- The diff contains no unrelated changes.
++
++## Release process
++
++Releases are automated by [`.github/workflows/release.yml`](.github/workflows/release.yml).
++
++1. Bump `<Version>` in `Helio.csproj`.
++2. Update `CHANGELOG.md`.
++3. Commit: `chore(release): 1.2.3`.
++4. Tag and push:
++
++```bash
++git tag v1.2.3
++git push origin main --tags
++```
++
++The workflow verifies that the tag matches the project version, builds five
++runtime identifiers, generates `SHA256SUMS.txt`, and creates the GitHub release.
++If the tag and version differ, the release fails early.
++
++## Security and secrets
++
++- Never commit `accounts.json`, access tokens, refresh tokens, or passwords.
++- Redact UUIDs, usernames, and local paths from logs if you prefer.
++- Report vulnerabilities privately — see [SECURITY.md](SECURITY.md).
++- If a token is exposed, sign in again with `helio auth elyby` to rotate it and
++  remove the old account with `helio auth remove <alias>`.
++
++## License
++
++By contributing, you agree that your contribution may be distributed under the
++project's license terms. See [LICENSE](LICENSE). If the upstream project adopts a
++license, this fork will follow it.
 diff --git a/Commands/AuthCommand.cs b/Commands/AuthCommand.cs
 index de0cb6f..dc8a0c2 100644
 --- a/Commands/AuthCommand.cs
@@ -196,7 +1622,7 @@ index de0cb6f..dc8a0c2 100644
 +    }
  }
 diff --git a/Commands/CommandRouter.cs b/Commands/CommandRouter.cs
-index 08cebc4..926b086 100644
+index 08cebc4..0089de9 100644
 --- a/Commands/CommandRouter.cs
 +++ b/Commands/CommandRouter.cs
 @@ -1,9 +1,9 @@
@@ -213,10 +1639,15 @@ index 08cebc4..926b086 100644
  
  /// <summary>
  /// Parses raw input lines and dispatches to the correct command handler.
-@@ -81,6 +81,11 @@ public class CommandRouter
+@@ -81,6 +81,16 @@ public class CommandRouter
                  await _instance.ExecuteAsync(["run", ..args]);
                  break;
  
++            // Select the active instance from any prompt.
++            case "select" or "use":
++                await _instance.ExecuteAsync(["select", ..args]);
++                break;
++
 +            // Unselect the active instance from any prompt.
 +            case "deselect" or "unselect" or "none":
 +                await _instance.ExecuteAsync(["deselect"]);
@@ -225,7 +1656,7 @@ index 08cebc4..926b086 100644
              case "mod" or "m":
                  await _mod.ExecuteAsync(args);
                  break;
-@@ -130,7 +135,11 @@ public class CommandRouter
+@@ -130,7 +140,11 @@ public class CommandRouter
                  break;
  
              case "update":
@@ -238,7 +1669,7 @@ index 08cebc4..926b086 100644
                  break;
  
              case "restart":
-@@ -146,7 +155,7 @@ public class CommandRouter
+@@ -146,7 +160,7 @@ public class CommandRouter
                  }
                  else
                  {
@@ -247,7 +1678,7 @@ index 08cebc4..926b086 100644
                  }
                  break;
  
-@@ -155,7 +164,7 @@ public class CommandRouter
+@@ -155,7 +169,7 @@ public class CommandRouter
                  break;
  
              case "version" or "ver":
@@ -256,7 +1687,7 @@ index 08cebc4..926b086 100644
                  AnsiConsole.MarkupLine($"[dim].NET {System.Environment.Version}  |  {System.Runtime.InteropServices.RuntimeInformation.OSDescription}[/]");
                  break;
  
-@@ -169,7 +178,7 @@ public class CommandRouter
+@@ -169,7 +183,7 @@ public class CommandRouter
  
              default:
                  AnsiConsole.MarkupLine(
@@ -319,7 +1750,7 @@ index 5ba586b..2794658 100644
      // Display label
      private static string Label(ContentType t) => t switch
 diff --git a/Commands/HelpCommand.cs b/Commands/HelpCommand.cs
-index 3a60c7f..cb6a670 100644
+index 3a60c7f..330015d 100644
 --- a/Commands/HelpCommand.cs
 +++ b/Commands/HelpCommand.cs
 @@ -1,8 +1,8 @@
@@ -334,18 +1765,27 @@ index 3a60c7f..cb6a670 100644
  
  public class HelpCommand
  {
-@@ -17,8 +17,10 @@ public class HelpCommand
+@@ -17,8 +17,11 @@ public class HelpCommand
              .AddColumn("[bold]Description[/]");
  
          table.AddRow($"[{UiTheme.AccentMarkup}]auth login[/]",                        L("help.cmd_auth_login"));
 +        table.AddRow($"[{UiTheme.AccentMarkup}]auth elyby [grey][[alias]][/][/]",      L("help.cmd_auth_elyby"));
          table.AddRow($"[{UiTheme.AccentMarkup}]instance create[/]",                   L("help.cmd_instance_create"));
          table.AddRow($"[{UiTheme.AccentMarkup}]instance select [grey]<name>[/][/]",   L("help.cmd_instance_select"));
++        table.AddRow($"[{UiTheme.AccentMarkup}]select [grey]<name>[/][/]",            L("help.cmd_select"));
 +        table.AddRow($"[{UiTheme.AccentMarkup}]instance deselect[/] [dim]/ unselect[/]", L("help.cmd_instance_deselect"));
          table.AddRow($"[{UiTheme.AccentMarkup}]instance run[/] [dim]/ launch[/]",      L("help.cmd_instance_run"));
          table.AddRow($"[{UiTheme.AccentMarkup}]modpack search [grey]<query>[/][/]",   L("help.cmd_modpack_search"));
          table.AddRow($"[{UiTheme.AccentMarkup}]mod search [grey]<query>[/][/]",       L("help.cmd_mod_search"));
-@@ -92,6 +94,7 @@ public class HelpCommand
+@@ -41,6 +44,7 @@ public class HelpCommand
+         table.AddRow($"[{UiTheme.AccentMarkup}]instance list[/]",                          L("help.ref_instance_list"));
+         table.AddRow($"[{UiTheme.AccentMarkup}]instance create[/]",                        L("help.ref_instance_create"));
+         table.AddRow($"[{UiTheme.AccentMarkup}]instance select [grey]<name>[/][/]",        L("help.ref_instance_select"));
++        table.AddRow($"[{UiTheme.AccentMarkup}]select [grey]<name>[/][/]",                  L("help.ref_select"));
+         table.AddRow($"[{UiTheme.AccentMarkup}]instance deselect[/]",                      L("help.ref_instance_deselect"));
+         table.AddRow($"[{UiTheme.AccentMarkup}]instance run [grey][[name]][/][/]",             L("help.ref_instance_run"));
+         table.AddRow($"[{UiTheme.AccentMarkup}]instance clone [grey]<name>[/][/]",          L("help.ref_instance_clone"));
+@@ -92,6 +96,7 @@ public class HelpCommand
          table.AddRow($"[{UiTheme.AccentMarkup}]skin delete [grey]<name>[/][/]",          L("help.ref_skin_delete"));
          table.AddRow($"[{UiTheme.AccentMarkup}]console[/]",                              L("help.ref_console"));
          table.AddRow($"[{UiTheme.AccentMarkup}]auth login [grey][[alias]][/][/]",         L("help.ref_auth_login"));
@@ -861,8 +2301,47 @@ index 038aaf9..85fb242 100644
      <Version>1.0.6</Version>
      <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
      <Optimize>true</Optimize>
+diff --git a/LICENSE b/LICENSE
+new file mode 100644
+index 0000000..5efed9b
+--- /dev/null
++++ b/LICENSE
+@@ -0,0 +1,33 @@
++# License status
++
++HelioMC is a fork of [McSH](https://github.com/kalakaritzu/mcsh).
++
++The upstream McSH project does **not** currently declare a license, and this
++fork does not grant any additional rights beyond those you already have under
++applicable law and the upstream project's terms.
++
++In practical terms:
++
++- No open-source license is granted by this repository yet.
++- All rights are reserved by the respective authors.
++- You are responsible for confirming that you have the necessary rights before
++  redistributing HelioMC or any derivative work.
++- If the upstream project adopts a license, this fork will adopt compatible
++  terms and update this file.
++
++This file is a statement of licensing status, not a license grant.
++
++## Third-party components
++
++HelioMC depends on third-party packages and services, each governed by its own
++license:
++
++- [Spectre.Console](https://github.com/spectreconsole/spectre.console) — MIT
++- [Figgle](https://github.com/drewnoakes/figgle) — MIT
++- [fNbt](https://github.com/fragmer/fNbt) — MIT
++- [authlib-injector](https://github.com/yushijinhun/authlib-injector) — AGPL-3.0
++  (downloaded at runtime, not bundled)
++- Minecraft, Mojang, Microsoft, Ely.by, and Modrinth are trademarks or services
++  of their respective owners.
++
++See the upstream repositories for the exact terms of each dependency.
 diff --git a/Languages/en.json b/Languages/en.json
-index dccaee7..3f2c917 100644
+index dccaee7..a31c1ab 100644
 --- a/Languages/en.json
 +++ b/Languages/en.json
 @@ -11,7 +11,7 @@
@@ -874,13 +2353,14 @@ index dccaee7..3f2c917 100644
  
    "tip.0": "Tip: type 'ref' for a full command reference.",
    "tip.1": "Tip: use Tab to autocomplete commands.",
-@@ -155,18 +155,20 @@
+@@ -155,18 +155,22 @@
    "console.detached": "Detached.",
  
    "help.cmd_auth_login": "Sign in with your Microsoft account  [dim](alias: a)[/]",
 +  "help.cmd_auth_elyby": "Sign in with an Ely.by account  [dim](browser OAuth)[/]",
    "help.cmd_instance_create": "Create a new instance  [dim](alias: i)[/]",
    "help.cmd_instance_select": "Set the active instance",
++  "help.cmd_select": "Shortcut for 'instance select'",
 +  "help.cmd_instance_deselect": "Unselect the active instance  [dim](or type: deselect)[/]",
    "help.cmd_instance_run": "Launch the active instance  [dim]or: run <name>[/]",
    "help.cmd_modpack_search": "Search and install modpacks from Modrinth  [dim](alias: mp)[/]",
@@ -893,11 +2373,12 @@ index dccaee7..3f2c917 100644
    "help.ref_instance_create": "Create a new instance via interactive wizard",
    "help.ref_instance_select": "Set the active instance (pre-warms launch cache)",
 -  "help.ref_instance_deselect": "Deselect the active instance",
++  "help.ref_select": "Shortcut for 'instance select <name>'",
 +  "help.ref_instance_deselect": "Unselect the active instance (also: unselect, none, off)",
    "help.ref_instance_run": "Launch the active instance (or pass a name)  [dim]shortcut: run <name>[/]",
    "help.ref_instance_clone": "Duplicate an instance",
    "help.ref_instance_stop": "Gracefully stop a running instance",
-@@ -210,23 +212,24 @@
+@@ -210,23 +214,24 @@
    "help.ref_java": "List detected Java installations and optionally set a custom path",
    "help.ref_console": "Attach to the running instance console (ESC to detach)",
    "help.ref_auth_login": "Sign in with a Microsoft account  [dim](alias: a)[/]",
@@ -919,7 +2400,7 @@ index dccaee7..3f2c917 100644
 -  "help.ref_update": "Update McSH to the latest version",
 -  "help.ref_restart": "Restart McSH",
 +  "help.ref_version": "Show Helio version and runtime info",
-+  "help.ref_update": "Update Helio to the latest version",
++  "help.ref_update": "Check for updates (disabled in this fork)",
 +  "help.ref_restart": "Restart Helio",
    "help.ref_clear": "Clear the terminal screen  [dim](alias: cls)[/]",
 -  "help.ref_exit": "Exit McSH",
@@ -927,7 +2408,7 @@ index dccaee7..3f2c917 100644
  
    "mod.none_installed": "No mods installed. Use 'mod search' or 'mod import' to add one.",
    "mod.col_name": "Name",
-@@ -266,12 +269,12 @@
+@@ -266,12 +271,12 @@
    "update.checking": "Checking for updates...",
    "update.up_to_date": "You're already on the latest version",
    "update.confirm": "Download and install now?",
@@ -943,7 +2424,7 @@ index dccaee7..3f2c917 100644
  
    "skin.none": "No skins saved. Use 'skin import <path.png>' to add one.",
    "skin.col_name": "Name",
-@@ -306,13 +309,13 @@
+@@ -306,13 +311,13 @@
    "skin.cape_apply_failed": "Failed to update cape. Check your connection.",
  
    "help.ref_skin": "List saved skins and apply one to your account",
@@ -960,7 +2441,7 @@ index dccaee7..3f2c917 100644
    "instance.fetching_versions": "Fetching Minecraft versions...",
    "instance.checking_mod_updates": "Checking {0} mod(s) for updates...",
 diff --git a/Languages/es.json b/Languages/es.json
-index 1782abf..32710ac 100644
+index 1782abf..34be4ff 100644
 --- a/Languages/es.json
 +++ b/Languages/es.json
 @@ -11,7 +11,7 @@
@@ -972,13 +2453,14 @@ index 1782abf..32710ac 100644
  
    "tip.0": "Tip: escribe 'ref' para ver todos los comandos.",
    "tip.1": "Tip: usa Tab para autocompletar comandos.",
-@@ -155,18 +155,20 @@
+@@ -155,18 +155,22 @@
    "console.detached": "Desconectado.",
  
    "help.cmd_auth_login": "Inicia sesión con tu cuenta de Microsoft  [dim](alias: a)[/]",
 +  "help.cmd_auth_elyby": "Inicia sesión con una cuenta de Ely.by  [dim](OAuth en el navegador)[/]",
    "help.cmd_instance_create": "Crea una nueva instancia  [dim](alias: i)[/]",
    "help.cmd_instance_select": "Establece la instancia activa",
++  "help.cmd_select": "Atajo para 'instance select'",
 +  "help.cmd_instance_deselect": "Deselecciona la instancia activa  [dim]o: deselect[/]",
    "help.cmd_instance_run": "Lanza la instancia activa  [dim]o: run <nombre>[/]",
    "help.cmd_modpack_search": "Busca e instala modpacks de Modrinth  [dim](alias: mp)[/]",
@@ -991,11 +2473,12 @@ index 1782abf..32710ac 100644
    "help.ref_instance_create": "Crea una nueva instancia mediante asistente interactivo",
    "help.ref_instance_select": "Establece la instancia activa (precalienta la caché de lanzamiento)",
 -  "help.ref_instance_deselect": "Deselecciona la instancia activa",
++  "help.ref_select": "Atajo para 'instance select <nombre>'",
 +  "help.ref_instance_deselect": "Deselecciona la instancia activa (también: unselect, none, off)",
    "help.ref_instance_run": "Lanza la instancia activa (o pasa un nombre)  [dim]atajo: run <nombre>[/]",
    "help.ref_instance_clone": "Duplica una instancia",
    "help.ref_instance_stop": "Detiene una instancia en ejecución de forma segura",
-@@ -210,23 +212,24 @@
+@@ -210,23 +214,24 @@
    "help.ref_java": "Lista las instalaciones de Java detectadas y permite establecer una ruta personalizada",
    "help.ref_console": "Se conecta a la consola de la instancia en ejecución (ESC para desconectar)",
    "help.ref_auth_login": "Inicia sesión con una cuenta de Microsoft  [dim](alias: a)[/]",
@@ -1017,7 +2500,7 @@ index 1782abf..32710ac 100644
 -  "help.ref_update": "Actualiza McSH a la última versión",
 -  "help.ref_restart": "Reinicia McSH",
 +  "help.ref_version": "Muestra la versión de Helio e información del entorno",
-+  "help.ref_update": "Actualiza Helio a la última versión",
++  "help.ref_update": "Busca actualizaciones (desactivado en este fork)",
 +  "help.ref_restart": "Reinicia Helio",
    "help.ref_clear": "Limpia la pantalla del terminal  [dim](alias: cls)[/]",
 -  "help.ref_exit": "Salir de McSH",
@@ -1025,7 +2508,7 @@ index 1782abf..32710ac 100644
  
    "mod.none_installed": "No hay mods instalados. Usa 'mod search' o 'mod import' para agregar uno.",
    "mod.col_name": "Nombre",
-@@ -266,12 +269,12 @@
+@@ -266,12 +271,12 @@
    "update.checking": "Buscando actualizaciones...",
    "update.up_to_date": "Ya tienes la última versión",
    "update.confirm": "¿Descargar e instalar ahora?",
@@ -1041,7 +2524,7 @@ index 1782abf..32710ac 100644
  
    "skin.none": "No hay skins guardadas. Usa 'skin import <ruta.png>' para añadir una.",
    "skin.col_name": "Nombre",
-@@ -306,13 +309,13 @@
+@@ -306,13 +311,13 @@
    "skin.cape_apply_failed": "Error al actualizar la capa. Verifica tu conexión.",
  
    "help.ref_skin": "Lista las skins guardadas y aplica una a tu cuenta",
@@ -1238,7 +2721,7 @@ index 1b38ee1..9017434 100644
  /// </summary>
  public static class PlatformHelper
 diff --git a/Program.cs b/Program.cs
-index 4a2d016..18ab582 100644
+index 4a2d016..84ad260 100644
 --- a/Program.cs
 +++ b/Program.cs
 @@ -1,8 +1,8 @@
@@ -1373,15 +2856,16 @@ index 4a2d016..18ab582 100644
          break;
      }
  
-@@ -262,6 +233,7 @@ static string[] GetCompletions(string? activeInstance)
+@@ -262,6 +233,8 @@ static string[] GetCompletions(string? activeInstance)
              "help", "h", "?", "ref", "c", "auth", "a", "login", "console",
              "settings", "set", "s",
              "instance", "i", "ins", "inst",
++            "select", "use",
 +            "deselect", "unselect", "none",
              "mod", "m",
              "resourcepack", "rp", "resourcepacks",
              "shader", "shaders",
-@@ -280,7 +252,7 @@ static string[] GetCompletions(string? activeInstance)
+@@ -280,7 +253,7 @@ static string[] GetCompletions(string? activeInstance)
          };
  
      // Subcommands.
@@ -1390,7 +2874,7 @@ index 4a2d016..18ab582 100644
      var modSubs         = new[] { "search", "install", "uninstall", "remove", "rm", "details", "info", "import", "toggle", "open", "list", "ls", "profile" };
      var contentSubs     = new[] { "search", "install", "details", "info", "open" };
  
-@@ -318,7 +290,7 @@ static string[] GetCompletions(string? activeInstance)
+@@ -318,7 +291,7 @@ static string[] GetCompletions(string? activeInstance)
          .Concat(contentSubs.Select(s => $"plugins {s}"));
  
      // "auth <sub>"
@@ -1399,7 +2883,7 @@ index 4a2d016..18ab582 100644
      var auth = authSubs.Select(s => $"auth {s}")
          .Concat(authSubs.Select(s => $"a {s}"));
  
-@@ -329,7 +301,7 @@ static string[] GetCompletions(string? activeInstance)
+@@ -329,7 +302,7 @@ static string[] GetCompletions(string? activeInstance)
  
      // "settings <sub>"
      var settingsSubs = new[] { "show", "reset", "theme", "language", "recent" };
@@ -1408,38 +2892,61 @@ index 4a2d016..18ab582 100644
      var settings = settingsSubs.Select(s => $"settings {s}")
          .Concat(settingsSubs.Select(s => $"set {s}"))
          .Concat(settingsSubs.Select(s => $"s {s}"))
+@@ -349,7 +322,11 @@ static string[] GetCompletions(string? activeInstance)
+         .Concat(instNames.Select(n => $"r {n}"))
+         .Concat(instNames.Select(n => $"launch {n}"));
+ 
+-    return top.Concat(inst).Concat(instNameCompletions).Concat(runCompletions).Concat(recent).Concat(mods).Concat(modpacks).Concat(content).Concat(auth).Concat(settings).Concat(contextual)
++    // "select <name>" / "use <name>" quick-select completions.
++    var selectCompletions = instNames.Select(n => $"select {n}")
++        .Concat(instNames.Select(n => $"use {n}"));
++
++    return top.Concat(inst).Concat(instNameCompletions).Concat(runCompletions).Concat(selectCompletions).Concat(recent).Concat(mods).Concat(modpacks).Concat(content).Concat(auth).Concat(settings).Concat(contextual)
+         .Distinct(StringComparer.OrdinalIgnoreCase)
+         .OrderBy(s => s, StringComparer.OrdinalIgnoreCase)
+         .ToArray();
 diff --git a/README.md b/README.md
-index bd1defe..f7e3d24 100644
+index bd1defe..e6e1360 100644
 --- a/README.md
 +++ b/README.md
-@@ -1,181 +1,109 @@
+@@ -1,181 +1,485 @@
 -# McSH (aka. McShell)
++<div align="center">
++
 +# HelioMC
++
++**Minecraft in your terminal. No Electron. No splash screens. Just `helio`.**
++
++[![Build](https://github.com/OmHackz/Helio/actions/workflows/build.yml/badge.svg)](https://github.com/OmHackz/Helio/actions/workflows/build.yml)
++[![Release](https://github.com/OmHackz/Helio/actions/workflows/release.yml/badge.svg)](https://github.com/OmHackz/Helio/actions/workflows/release.yml)
++[![CodeQL](https://github.com/OmHackz/Helio/actions/workflows/codeql.yml/badge.svg)](https://github.com/OmHackz/Helio/actions/workflows/codeql.yml)
++[![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
++[![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS%20%7C%20Windows-orange)](#install)
++[![License](https://img.shields.io/badge/license-see%20LICENSE-lightgrey)](LICENSE)
++
++```text
++██╗  ██╗███████╗██╗     ██╗ ██████╗
++██║  ██║██╔════╝██║     ██║██╔═══██╗
++███████║█████╗  ██║     ██║██║   ██║
++██╔══██║██╔══╝  ██║     ██║██║   ██║
++██║  ██║███████╗███████╗██║╚██████╔╝
++╚═╝  ╚═╝╚══════╝╚══════╝╚═╝ ╚═════╝
++```
  
 -![McSH Launcher](assets/banner.png)
-+**HelioMC** (CLI: `helio`) is a terminal Minecraft launcher built for people
-+who want to manage Minecraft without a GUI. No Electron, no splash screens, no
-+background services — just a shell prompt.
++[Features](#features) · [Install](#install) · [Quick start](#quick-start) · [Commands](#command-reference) · [Ely.by](#elyby-sign-in) · [Build](#building-from-source) · [Contributing](#contributing)
  
 -**A fast, lightweight Minecraft launcher for the terminal.**
-+HelioMC is an unofficial fork of [McSH](https://github.com/kalakaritzu/mcsh),
-+rebranded and extended with native [Ely.by](https://ely.by) account support
-+(browser OAuth + authlib-injector).
++</div>
  
 -**Website:** https://mcsh.dev
-+## Highlights
++---
  
 -McSH is a CLI Minecraft launcher built for people who want to manage Minecraft without the overhead of a GUI. No Electron, no splash screens, no background services. Just a shell prompt.
-+- **Ely.by OAuth** — `helio auth elyby` signs in through your browser using the
-+  device-code flow. No password is entered in the launcher.
-+- **Modpack support** — search and install modpacks from Modrinth.
-+- **Mod management** — install, update, enable/disable, and profile mods.
-+- **Mod loaders** — Vanilla, Fabric, Forge, NeoForge, and Quilt.
-+- **Instances** — separate versions, mods, worlds, RAM, and window settings.
-+- **Managed Java** — downloads the right JDK automatically when needed.
-+- **Orange by default** — the `helio` theme uses an orange accent, with six
-+  additional themes available.
-+- **Quick launch** — `helio run <name>` starts an instance without the REPL.
++**HelioMC** is a terminal-first Minecraft launcher for people who would rather
++stay in a shell than click through a launcher. It manages instances, mods,
++modpacks, worlds, Java, and accounts — including native
++[Ely.by](https://ely.by) sign-in through browser OAuth.
  
 -```
 -  __  __      ____  _   _
@@ -1447,19 +2954,63 @@ index bd1defe..f7e3d24 100644
 - | |\/| |/ __\___ \| |_| |
 - | |  | | (__ ___) |  _  |
 - |_|  |_|\___|____/|_| |_|
--
++It is an unofficial fork of [McSH](https://github.com/kalakaritzu/mcsh),
++fully rebranded and extended with Ely.by support, an orange default theme, and
++a few quality-of-life shortcuts.
+ 
 -v0.9.0  |  Type 'help' to begin
 -  Signed in as KALAKARITZU
 -  Tip: use Tab to autocomplete commands.
--
--> instance create
++> HelioMC is not affiliated with Mojang, Microsoft, Ely.by, or the upstream
++> McSH project.
++
++## Features
++
++| | Feature | What it does |
++|---|---|---|
++| 🟠 | **Orange by default** | The `helio` theme ships as the default accent, with six more themes available. |
++| 🔐 | **Ely.by OAuth** | `helio auth elyby` uses the device-code flow — approve in your browser, never type a password into the launcher. |
++| 🧱 | **Instances** | Isolated versions, mods, worlds, RAM, window size, JVM args, hooks, and environment variables. |
++| 🧩 | **Mods & modpacks** | Search Modrinth, install with dependencies, toggle, update, and snapshot loadouts with mod profiles. |
++| 🎨 | **Content packs** | Resource packs, shaders, server plugins, and data packs from Modrinth. |
++| ⚙️ | **Managed Java** | Detects installed JDKs and downloads a suitable one when needed. |
++| 🖥️ | **Live console** | Attach to a running instance with `helio console`, detach with `Esc`. |
++| 🚀 | **Quick launch** | `helio run <name>` starts an instance without entering the REPL. |
++| 🕘 | **Recent worlds** | Jump back into a recent world or server across all instances. |
++| 🧾 | **Scriptable** | Every command works non-interactively: `helio select MyPack && helio launch`. |
++| 🌍 | **English & Spanish** | Switch languages with `helio settings language <en\|es>`. |
++| 📦 | **Self-contained** | Published builds need no .NET runtime and no installer. |
++
++## A shell-native launcher
++
++```text
++$ helio
++> auth elyby
++  Open https://account.ely.by/code and enter: ABCD-1234
++  ✔ Signed in as Omhackz
+ 
+ > instance create
 -> instance run
--```
--
++  ✔ Created "Fabulous 1.21" (Fabric 1.21.1)
++
++> select "Fabulous 1.21"
++  ✔ Set to Fabulous 1.21.
++
++> mod search sodium
++  ...
++> mod install 1
++
++> launch
++  ✔ Launching Fabulous 1.21...
+ ```
+ 
 ----
--
++The active instance is shown in the prompt:
+ 
 -## Features
-+## Requirements
++```text
++> [Fabulous 1.21]:
++```
  
 -- **Instance management** — create, run, kill, rename, clone, delete, open folder, view info, per-instance config
 -- **Forge & NeoForge** — automatic installer, launch via full classpath
@@ -1482,46 +3033,54 @@ index bd1defe..f7e3d24 100644
 -- **Themes** — six built-in color themes (Crimson, Arctic, Forest, Amber, Violet, Steel)
 -- **Localization** — English and Spanish; switch with `settings language <en|es>`
 -- **Update checker** — notifies on startup if a newer release is available
-+- **Runtime:** none — the published binary is self-contained.
-+- **Minecraft:** Java is downloaded automatically if no suitable JDK is found.
-+- **Build:** .NET 8 SDK.
- 
-----
-+## Install (Linux)
- 
--## Install
-+```bash
-+# from a published build
-+sudo install -m755 helio /usr/local/bin/helio
- 
--Download `McSH-0.9.0.msi` from the [latest release](../../releases/latest) and run it.
--
--The installer registers `mcsh` on your PATH. Open any terminal and type `mcsh`.
--
--**Requirements:** Windows 10/11 x64. No separate runtime needed — the installer is self-contained.
-+# or build from source
-+~/.dotnet/dotnet publish -c Release -r linux-x64 --self-contained true -o out
-+sudo install -m755 out/helio /usr/local/bin/helio
-+```
- 
--**Linux:** Download `McSH-0.9.0-linux-x64.tar.gz`, extract, and move `mcsh` to `/usr/local/bin/`.
-+## Usage
++Unselect it whenever you want a clean prompt:
  
 ----
 +```text
-+helio                      # start the interactive REPL
-+helio run <name>           # launch an instance directly
-+helio auth elyby           # sign in with Ely.by (browser OAuth)
-+helio auth elyby --password  # password/Yggdrasil fallback
-+helio instance create      # create an instance
-+helio launch               # launch the active instance
++> [Fabulous 1.21]: deselect
++  ✔ Deselected Fabulous 1.21.
++>
++```
+ 
+ ## Install
+ 
+-Download `McSH-0.9.0.msi` from the [latest release](../../releases/latest) and run it.
++### Prebuilt binaries
+ 
+-The installer registers `mcsh` on your PATH. Open any terminal and type `mcsh`.
++Download the archive for your platform from
++[Releases](https://github.com/OmHackz/Helio/releases/latest).
+ 
+-**Requirements:** Windows 10/11 x64. No separate runtime needed — the installer is self-contained.
++| Platform | Asset | Binary |
++|---|---|---|
++| Linux x64 | `helio-<version>-linux-x64.tar.gz` | `helio` |
++| Linux arm64 | `helio-<version>-linux-arm64.tar.gz` | `helio` |
++| macOS Apple Silicon | `helio-<version>-osx-arm64.tar.gz` | `helio` |
++| macOS Intel | `helio-<version>-osx-x64.tar.gz` | `helio` |
++| Windows x64 | `helio-<version>-win-x64.zip` | `helio.exe` |
+ 
+-**Linux:** Download `McSH-0.9.0-linux-x64.tar.gz`, extract, and move `mcsh` to `/usr/local/bin/`.
++Every release also includes `SHA256SUMS.txt`; verify before running anything
++you downloaded.
+ 
+----
++**Linux / macOS**
++
++```bash
++tar -xzf helio-*-<platform>.tar.gz
++chmod +x helio
++sudo install -m755 helio /usr/local/bin/helio
++helio version
 +```
  
 -## Quick Start
-+### Ely.by sign-in
++Without `sudo`, install to your user path instead:
  
 +```bash
-+helio auth elyby
++mkdir -p ~/.local/bin
++install -m755 helio ~/.local/bin/helio
++export PATH="$HOME/.local/bin:$PATH"
  ```
 -auth login               — sign in with your Microsoft account
 -instance create          — create a new instance (guided wizard)
@@ -1532,62 +3091,157 @@ index bd1defe..f7e3d24 100644
 -mod search sodium        — search Modrinth
 -mod install 1            — install by result number
 -mod remove <name>        — uninstall a mod
-+HelioMC prints a short code and opens `https://account.ely.by/code`. Approve
-+the request in your browser and the account is saved automatically.
++**Windows (PowerShell)**
  
 -modpack search cobblemon      — search for modpacks
 -modpack install 1             — pick a version and install as a new instance
 -modpack update                — check all modpack instances for newer versions
-+The device-code flow uses Ely.by's public `ely` client id by default. To use a
-+registered application, set:
++```powershell
++Expand-Archive .\helio-*-win-x64.zip -DestinationPath $env:LOCALAPPDATA\Helio
++# Add the folder to your user PATH, then open a new terminal:
++helio version
++```
++
++### From source
  
 -datapack search <query>       — search Modrinth for data packs
 -shader search <query>         — search for shaders
 -resourcepack search <query>   — search for resource packs
--
++Requires the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
+ 
 -skin import <path.png>        — import a skin PNG
 -skin                          — browse and apply saved skins
 -skin cape                     — select or disable a cape
 +```bash
-+export HELIO_ELYBY_CLIENT_ID=your_client_id
-+```
++git clone https://github.com/OmHackz/Helio.git
++cd REPO
  
 -java                          — list Java installations, set custom path
-+### Themes
++# Pick the runtime identifier for your machine:
++dotnet publish Helio.csproj -c Release -r linux-x64 --self-contained true -o out
++# linux-arm64 · osx-arm64 · osx-x64 · win-x64
  
 -help                     — quick-start reference
 -ref                      — full command reference
-+```text
-+helio set theme helio      # orange (default)
-+helio set theme crimson
-+helio set theme arctic
-+helio set theme forest
-+helio set theme amber
-+helio set theme violet
-+helio set theme steel
++sudo install -m755 out/helio /usr/local/bin/helio
  ```
  
 ----
--
++On Windows:
++
++```powershell
++dotnet publish Helio.csproj -c Release -r win-x64 --self-contained true -o out
++.\out\helio.exe version
++```
++
++See [BUILD.md](BUILD.md) for fork-specific build notes.
++
++## Quick start
++
++```bash
++helio auth elyby              # sign in with Ely.by (browser OAuth)
++helio instance create         # interactive instance wizard
++helio select "My Instance"    # set the active instance
++helio launch                  # launch it
++```
+ 
 -## Command Reference
--
--| Command | Description |
--|---|---|
++Or do the whole thing without the REPL:
++
++```bash
++helio auth elyby && helio instance create && helio select "My Instance" && helio launch
++```
++
++## Ely.by sign-in
++
++HelioMC uses Ely.by's **OAuth 2.0 device-code flow**. No password is sent to the
++launcher, and no client secret is required.
++
++```bash
++helio auth elyby            # default alias
++helio auth elyby personal   # save under a custom alias
++```
++
++HelioMC prints a short code and opens `https://account.ely.by/code`. Approve the
++request, and the account is saved to
++`~/.local/share/Helio/accounts.json`.
++
++The flow requests these scopes:
++
++- `account_info` — read your Ely.by profile
++- `minecraft_server_session` — the token Minecraft uses to join servers
++- `offline_access` — refresh the token without signing in again
++
++Tokens are long-lived (Ely.by currently issues roughly 11-year tokens) and
++refresh automatically. **Never share `accounts.json` or paste tokens into an
++issue.**
++
++To use your own registered Ely.by application instead of the public `ely`
++client:
++
++```bash
++export HELIO_ELYBY_CLIENT_ID=your_client_id
++helio auth elyby --force
++```
++
++### Password fallback
++
++If device-code sign-in is unavailable, the legacy Yggdrasil/password path is
++kept as an explicit fallback:
++
++```bash
++helio auth elyby --password
++```
++
++For accounts with 2FA, enter the password as `password:2facode`. The password is
++never stored.
++
++### Account commands
++
++```text
++helio auth status              # active account, UUID, token expiry
++helio auth accounts            # list saved accounts
++helio auth switch <alias>      # change the active account
++helio auth remove <alias>      # delete a saved account
++helio auth logout              # sign out of the active account
++```
++
++## Command reference
++
++Run `helio help` for the quick-start guide or `helio ref` for the full list.
++Every command also works as a one-shot: `helio <command>`.
++
++### Instances
+ 
+ | Command | Description |
+ |---|---|
 -| `instance list` | List all instances with running status |
 -| `instance create` | Create a new instance (guided wizard) |
 -| `instance select <name>` | Set active instance and pre-warm |
 -| `instance run [name]` | Launch — prompts if none selected |
 -| `run <name>` | Quick CLI launch from terminal (alias: `r`) |
 -| `instance kill <name>` | Force-terminate |
--| `instance clone <name>` | Duplicate an instance |
++| `instance list` | List instances with version and loader |
++| `instance create` | Interactive creation wizard |
++| `instance select <name>` | Set the active instance (alias: `select`, `use`) |
++| `instance deselect` | Unselect the active instance (aliases: `deselect`, `unselect`, `none`, `off`) |
++| `instance run [name]` | Launch the active instance, or the named one (alias: `run`, `launch`) |
++| `instance stop [name]` | Force-terminate a running instance (alias: `kill`) |
++| `instance delete <name>` | Delete an instance folder (`rm`, `remove`) |
++| `instance rename <old> <new>` | Rename an instance |
+ | `instance clone <name>` | Duplicate an instance |
 -| `instance rename <name>` | Rename an instance |
 -| `instance delete <name>` | Delete an instance |
 -| `instance config [name]` | Configure window, RAM, JVM args, env vars, hooks |
 -| `instance worlds [name]` | Browse worlds — backup, delete, or open |
--| `instance crash [name]` | Show the latest crash report |
++| `instance update [name]` | Update all mods to their latest versions |
++| `instance worlds [name]` | List worlds; back up, delete, or open them |
++| `instance screenshots [name]` | Browse screenshots |
+ | `instance crash [name]` | Show the latest crash report |
 -| `instance export [name]` | Zip a full instance for sharing |
 -| `instance backup [name]` | Zip world saves with a timestamp |
--| `instance import <path.mrpack>` | Import a Modrinth modpack |
++| `instance config [name]` | Configure RAM, window, JVM args, env vars, hooks |
+ | `instance import <path.mrpack>` | Import a Modrinth modpack |
 -| `instance mrpack` | Export instance as a shareable .mrpack |
 -| `instance prism <path>` | Import a Prism Launcher / MultiMC instance |
 -| `instance update [name]` | Update all mods to their latest versions |
@@ -1598,13 +3252,48 @@ index bd1defe..f7e3d24 100644
 -| `mod install <#\|slug>` | Install mod + dependencies |
 -| `mod remove <name>` | Uninstall a mod |
 -| `mod details <#\|slug>` | Full description, then install prompt |
--| `mod toggle <name>` | Enable or disable without deleting |
++| `instance export [name]` | Zip the full instance folder |
++| `instance backup [name]` | Zip world saves with a timestamp |
++| `instance mrpack [name] [version]` | Export as a shareable `.mrpack` |
++| `instance prism <path>` | Import a Prism Launcher / MultiMC instance (`multimc`) |
++
++### Mods and content
++
++| Command | Description |
++|---|---|
++| `mod search <query>` | Search Modrinth for the active instance's version |
++| `mod install <id>` | Install a mod and its dependencies |
++| `mod remove <name>` | Remove a mod (`uninstall`, `rm`) |
++| `mod details <id\|#>` | Show a mod, then optionally install it |
++| `mod import <path>` | Import a local `.jar` |
+ | `mod toggle <name>` | Enable or disable without deleting |
 -| `mod import <path.jar>` | Import a local jar |
 -| `mod profile save/load/list/delete` | Manage named mod loadouts |
 -| `resourcepack / shader / plugin / datapack` | Same search, install, details, open flow |
 -| `skin [#]` | Browse saved skins and apply one |
 -| `skin import <path.png>` | Import a local skin PNG |
--| `skin cape` | Select or disable a cape |
++| `mod open` | Open the mods folder |
++| `mod list` | List installed mods |
++| `mod profile save\|load\|list\|delete` | Snapshot and restore mod loadouts |
++| `modpack search <query>` | Search Modrinth for modpacks (`mp`) |
++| `modpack install <#\|slug>` | Install a modpack as a new instance |
++| `modpack update` | Check installed modpacks for newer versions |
++| `resourcepack search\|install\|details` | Resource packs (`rp`) |
++| `shader search\|install\|details` | Shader packs |
++| `plugin search\|install\|details` | Server plugins (`pl`) |
++| `datapack search\|install\|details` | Data packs (`dp`) |
++
++### Accounts, skins, and system
++
++| Command | Description |
++|---|---|
++| `auth elyby [alias]` | Ely.by browser OAuth |
++| `auth elyby --password [alias]` | Ely.by password fallback |
++| `auth status` / `auth accounts` | Inspect accounts |
++| `auth switch <alias>` / `auth remove <alias>` / `auth logout` | Manage accounts |
++| `skin` | List and apply saved skins |
++| `skin import <path.png>` | Import a skin PNG |
+ | `skin cape` | Select or disable a cape |
 -| `skin delete <name>` | Remove a saved skin |
 -| `java` | List detected Java installations, set custom path |
 -| `recent` | Show recently played worlds and servers |
@@ -1614,63 +3303,378 @@ index bd1defe..f7e3d24 100644
 -| `auth accounts / switch / remove` | Multi-account management |
 -| `settings` | Toggle UI, prompt, and behavior options (alias: `s`) |
 -| `settings theme <name>` | Switch color theme |
--| `settings language <en\|es>` | Switch language |
++| `skin delete <name>` | Delete a saved skin |
++| `java` | List detected JDKs; set a custom path |
++| `console` | Attach to the running instance console (`Esc` to detach) |
++| `recent` / `recent run <#>` | Recently played worlds and servers |
++| `settings` | Interactive settings menu |
++| `settings theme [name]` | Switch colour theme |
+ | `settings language <en\|es>` | Switch language |
 -| `ref` | Full command reference (alias: `c`) |
 -| `help` | Quick-start guide |
 -| `version` | Show McSH version and runtime info |
 -| `update` | Update McSH to the latest version |
 -| `restart` | Restart McSH in a new terminal window |
--
-----
--
--## Building from Source
-+## Data
++| `settings recent <count>` | Recent entries on startup (`0` = off) |
++| `help` / `ref` | Quick help / full reference |
++| `version` / `restart` / `clear` / `exit` | System commands |
  
--```
+----
++> `helio update` is intentionally disabled. HelioMC is a local fork — update by
++> pulling and rebuilding, or by downloading a newer release.
++
++## Instances and the active selection
+ 
+-## Building from Source
++An instance groups a Minecraft version, loader, mods, worlds, and launch
++settings. One instance can be **active**, which lets you omit its name from most
++commands.
+ 
++```bash
++helio select "Fabulous 1.21"       # top-level shortcut
++helio instance select "Fabulous 1.21"
++helio use "Fabulous 1.21"          # alias
++
++helio deselect                     # top-level shortcut
++helio instance deselect            # aliases: unselect, none, off
+ ```
 -git clone https://github.com/kalakaritzu/mcsh
 -cd mcsh
 -dotnet build
 -dotnet run
--```
-+HelioMC stores data in:
++
++The selection is stored in `session.json` and restored on the next start. If
++the instance no longer exists, HelioMC ignores the stale entry. Run `deselect`
++if you prefer a plain `> ` prompt.
++
++## Themes
++
++The default theme is **`helio`**, an orange accent.
++
++```text
++helio settings theme helio      # orange (default)
++helio settings theme crimson
++helio settings theme arctic
++helio settings theme forest
++helio settings theme amber
++helio settings theme violet
++helio settings theme steel
+ ```
  
 -To build the Windows installer:
-+- Windows: `%APPDATA%\Helio\`
-+- Linux: `~/.local/share/Helio/` (or `$XDG_DATA_HOME/Helio`)
-+- macOS: `~/Library/Application Support/Helio/`
++Themes also change the startup banner gradient.
++
++## Data and configuration
++
++HelioMC stores everything in one directory:
++
++| Platform | Path |
++|---|---|
++| Linux | `~/.local/share/Helio/` (respects `$XDG_DATA_HOME`) |
++| macOS | `~/Library/Application Support/Helio/` |
++| Windows | `%APPDATA%\Helio\` |
++
++| File / folder | Contents |
++|---|---|
++| `accounts.json` | Saved accounts and tokens — **private** |
++| `session.json` | Active instance |
++| `settings.json` | Theme, language, prompt, and UI preferences |
++| `instances/` | Instance folders (mods, worlds, configs) |
++| `versions/`, `libraries/`, `assets/` | Shared Minecraft files |
++| `authlib-injector.jar` | Cached Ely.by authlib-injector, SHA-256 verified |
  
--```
++On first run, an existing `McSH` data directory is **moved** to the Helio
++location so instances and accounts carry over. Back up the folder before
++experimenting.
++
++To reset HelioMC, quit it and rename the data directory — do not delete it until
++you have copied anything you need.
++
++## Building from source
++
++Prerequisites: .NET 8 SDK, and network access for NuGet restore.
++
++```bash
++dotnet restore Helio.csproj
++dotnet build Helio.csproj -c Release
++dotnet bin/Release/net8.0/helio.dll version
+ ```
 -build-installer.bat
--```
-+On first run, an existing McSH data directory is moved to the Helio location so
-+instances and accounts carry over. The authlib-injector JAR is cached there and
-+verified by SHA-256.
++
++Self-contained publish:
++
++```bash
++dotnet publish Helio.csproj \
++  -c Release \
++  -r linux-x64 \
++  --self-contained true \
++  -p:PublishSingleFile=true \
++  -p:EnableCompressionInSingleFile=true \
++  -p:IncludeNativeLibrariesForSelfExtract=true \
++  -o out
+ ```
  
 -Requires [.NET 8 SDK](https://dotnet.microsoft.com/download) and the [WiX toolset](https://wixtoolset.org) (`dotnet tool install --global wix`).
-+## Building
- 
-----
-+```bash
-+~/.dotnet/dotnet publish -c Release -r linux-x64 --self-contained true -o out
++### Project layout
++
++```text
++.
++├── Commands/          # One class per command group
++├── Models/            # Settings, accounts, instances, caches
++├── Services/          # Auth, Modrinth, Java, launch, themes, paths
++├── State/             # REPL state and session persistence
++├── Languages/         # en.json, es.json
++├── Properties/        # Windows publish profile
++├── Program.cs         # Entry point, REPL loop, completions
++├── UiTheme.cs         # Theme definitions
++├── Helio.csproj       # Project file (net8.0, assembly "helio")
++├── BUILD.md           # Fork-specific build notes
++└── CONTRIBUTING.md    # Development and PR guide
 +```
  
+----
++### Releases
+ 
 -## Notes
-+See [`BUILD.md`](BUILD.md) for the patch overview and install steps.
++The GitHub Actions workflows are ready to use:
  
 -- Data is stored in `%APPDATA%\McSH\` on Windows, `~/.local/share/McSH` on Linux
 -- Skins are stored locally in the McSH data directory and applied to your Minecraft account via the Mojang API
-+## Attribution
++- **Build** (`build.yml`) — restores, builds, validates language JSON, runs a
++  smoke test, and publishes artifacts for five runtime identifiers on every
++  push and pull request.
++- **Release** (`release.yml`) — triggered by a `v*` tag. It verifies that the
++  tag matches `<Version>` in `Helio.csproj`, builds every platform, generates
++  `SHA256SUMS.txt`, and creates a GitHub release.
++- **CodeQL** (`codeql.yml`) — weekly and per-change security analysis.
++- **Stale** (`stale.yml`) — keeps the issue tracker tidy.
  
 ----
-+HelioMC is a fork of **McSH** by
-+[kalakaritzu](https://github.com/kalakaritzu/mcsh). The original project and
-+this fork are not affiliated with Mojang, Microsoft, or Ely.by.
++To cut a release:
++
++```bash
++# 1. Bump <Version> in Helio.csproj
++# 2. Commit the change
++git commit -am "chore(release): 1.0.7"
++git tag v1.0.7
++git push origin main --tags
++```
++
++## Troubleshooting
++
++**Minecraft launches and closes immediately**
++Run `helio instance crash` for the newest crash report, then check the Java
++version. `helio java` lists what HelioMC found; game version and loader must
++match a supported JDK.
++
++**Ely.by sign-in keeps waiting**
++Open `https://account.ely.by/code` manually and confirm the code. If you set
++`HELIO_ELYBY_CLIENT_ID`, unset it to use the public `ely` client, then retry.
++
++**`auth status` says the token expired**
++Tokens refresh automatically at startup. If refresh fails, run
++`helio auth elyby` again. Never share the old token.
++
++**macOS says the binary cannot be opened**
++Remove the quarantine attribute after verifying the checksum:
++
++```bash
++xattr -d com.apple.quarantine ./helio
++chmod +x ./helio
++```
++
++**Windows SmartScreen warns about the executable**
++The release binaries are unsigned. Verify `SHA256SUMS.txt`, then choose
++*More info → Run anyway* if you trust the build.
++
++**Wrong prompt / stale instance name**
++Run `helio deselect`. The selection lives in `session.json`.
++
++## Contributing
++
++Contributions are welcome — code, translations, docs, themes, and bug reports.
++
++- Read [CONTRIBUTING.md](CONTRIBUTING.md).
++- Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
++- Use the issue and pull-request templates.
++- Report vulnerabilities privately via [SECURITY.md](SECURITY.md).
++- Ask questions in [SUPPORT.md](SUPPORT.md).
++
++Good first issues are labelled `good first issue`.
  
  ## License
  
 -MIT
-+Inherited from the upstream McSH project. See the upstream repository for
-+licensing details.
++See [LICENSE](LICENSE). HelioMC is a fork of McSH by
++[kalakaritzu](https://github.com/kalakaritzu/mcsh); the upstream project does not
++currently declare a license, so this fork does not grant additional rights.
++Confirm you have the necessary rights before redistributing.
++
++## Acknowledgements
++
++- [McSH](https://github.com/kalakaritzu/mcsh) — the upstream terminal launcher.
++- [Spectre.Console](https://spectreconsole.net/) — terminal UI.
++- [Modrinth](https://modrinth.com/) — mod, modpack, and content APIs.
++- [Ely.by](https://ely.by) — account provider and authlib-injector.
++- [authlib-injector](https://github.com/yushijinhun/authlib-injector) — Yggdrasil
++  compatibility layer.
+diff --git a/SECURITY.md b/SECURITY.md
+new file mode 100644
+index 0000000..918bc81
+--- /dev/null
++++ b/SECURITY.md
+@@ -0,0 +1,87 @@
++# Security Policy
++
++## Supported versions
++
++HelioMC is a small fork and only the latest published release (and the current
++`main` branch) receives fixes.
++
++| Version | Supported |
++|---|---|
++| Latest release | ✅ |
++| `main` / `master` | ✅ |
++| Older releases | ❌ |
++
++## Reporting a vulnerability
++
++**Please do not open a public issue for security problems.**
++
++Report privately through GitHub:
++
++1. Go to the repository's **Security** tab.
++2. Choose **Advisories → Report a vulnerability**.
++3. Describe the issue, affected versions, and reproduction steps.
++
++Direct link once the repository exists:
++
++<https://github.com/OmHackz/Helio/security/advisories/new>
++
++If private reporting is unavailable, contact a maintainer through their GitHub
++profile and ask for a private channel. Do not include exploit details in a
++public message.
++
++## What to include
++
++- HelioMC version (`helio version`) and platform
++- A clear description of the vulnerability and its impact
++- Reproduction steps or a proof of concept
++- Whether the issue requires a malicious server, mod, modpack, or local access
++- Any suggested fix or mitigation
++
++## What not to include
++
++- Access tokens, refresh tokens, or `accounts.json` contents
++- Passwords or 2FA codes
++- Other users' personal data
++- Public disclosure before a fix is available
++
++If you accidentally expose a token, sign in again with
++`helio auth elyby` to rotate it, then remove the old account with
++`helio auth remove <alias>`.
++
++## Scope
++
++In scope:
++
++- Token handling, refresh, and storage in `Services/AuthService.cs`
++- Ely.by OAuth device-code flow and authlib-injector download/verification
++- Command injection, path traversal, or unsafe file handling
++- Modpack / mod archive extraction (zip-slip, arbitrary writes)
++- Remote code execution through downloaded content
++- Secrets written to logs or crash reports
++
++Out of scope:
++
++- Vulnerabilities in Minecraft, Java, Modrinth, Ely.by, or third-party mods
++- Issues that require an already-compromised machine
++- Social engineering of maintainers
++- Denial of service through enormous downloads, unless it bypasses a safety
++  check in HelioMC
++
++## Response process
++
++- Acknowledgement within **7 days** where possible.
++- An initial assessment and severity estimate after triage.
++- A fix and coordinated disclosure once a patch is ready.
++- Credit in the release notes if you would like it.
++
++This is a volunteer project, so timelines are best-effort. Thank you for
++reporting responsibly.
++
++## Safe defaults for users
++
++- Download builds only from the project's Releases page.
++- Verify `SHA256SUMS.txt`.
++- Never share `accounts.json` or paste tokens into issues.
++- Keep Java and HelioMC up to date.
++- Treat modpacks and mods from unknown sources with the same caution you would
++  apply to any executable content.
+diff --git a/SUPPORT.md b/SUPPORT.md
+new file mode 100644
+index 0000000..06656bc
+--- /dev/null
++++ b/SUPPORT.md
+@@ -0,0 +1,58 @@
++# Support
++
++Need help with HelioMC? Here is where to look.
++
++## Read first
++
++- [README](README.md) — install, commands, Ely.by sign-in, troubleshooting
++- [BUILD.md](BUILD.md) — building from source and fork-specific notes
++- [CONTRIBUTING.md](CONTRIBUTING.md) — development setup and pull requests
++- `helio help` — quick command guide
++- `helio ref` — full command reference
++- `helio version` — version and runtime information
++
++## Ask a question
++
++Use [Discussions](https://github.com/OmHackz/Helio/discussions) for open-ended
++questions, setup help, and ideas. If Discussions are not enabled yet, open a
++question issue with the **Question** template.
++
++Include:
++
++- `helio version`
++- Your OS and architecture
++- What you tried and what happened
++- Relevant logs, with tokens and personal paths removed
++
++## Report a bug
++
++Open an issue with the **Bug report** template. Search existing issues first.
++
++## Request a feature
++
++Open an issue with the **Feature request** template. Describe the problem before
++the proposed command or flag.
++
++## Security issue
++
++Do **not** open a public issue. Follow [SECURITY.md](SECURITY.md).
++
++## Ely.by account issues
++
++HelioMC only performs the OAuth flow. For account recovery, passwords, skins, or
++Ely.by service outages, use [Ely.by help](https://ely.by/help).
++
++## Minecraft, Java, and mod issues
++
++- Vanilla/Mojang account or game issues: [Minecraft Help](https://help.minecraft.net/)
++- Java: [Adoptium](https://adoptium.net/) or your distribution's packages
++- Mods and modpacks: the mod author or [Modrinth](https://modrinth.com/)
++
++## Response expectations
++
++This is a volunteer project. Issues and pull requests are reviewed when time
++allows. Clear reports with reproducible steps are handled fastest.
++
++## Be kind
++
++All support spaces follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 diff --git a/Services/AuthConfig.cs b/Services/AuthConfig.cs
 index c6e6c8e..bed3bfb 100644
 --- a/Services/AuthConfig.cs
@@ -3321,3 +5325,177 @@ index fe19b7f..4304916 100644
 +echo   Done: installer\Helio.msi
  echo.
  endlocal
+diff --git a/docs/ARCHITECTURE.md b/docs/ARCHITECTURE.md
+new file mode 100644
+index 0000000..1eb2425
+--- /dev/null
++++ b/docs/ARCHITECTURE.md
+@@ -0,0 +1,168 @@
++# Architecture
++
++How HelioMC is put together, for contributors who need a map before changing
++code.
++
++## Process model
++
++HelioMC is a single console application. There is no daemon and no background
++service.
++
++```text
++helio [args]
++   │
++   ├─ args present ──► quick-launch: build AppState + CommandRouter,
++   │                   load session, dispatch one command, exit
++   │
++   └─ no args ──────► load settings, banner, load session,
++                      start REPL, read line, dispatch, repeat
++```
++
++`Program.cs` owns both paths. The REPL adds tab completion, history, theming,
++and the prompt; the quick-launch path reuses the same `CommandRouter`, so every
++command behaves identically whether invoked interactively or from a script.
++
++## Dispatch
++
++`Commands/CommandRouter.cs` maps the first token to a command group:
++
++| Verb | Handler |
++|---|---|
++| `instance`, `i`, `ins`, `inst` | `InstanceCommand` |
++| `select`, `use` | `InstanceCommand` (`select`) |
++| `deselect`, `unselect`, `none` | `InstanceCommand` (`deselect`) |
++| `run`, `r`, `launch` | `InstanceCommand` (`run`) |
++| `mod`, `m` | `ModCommand` |
++| `modpack`, `mp` | `ModpackCommand` |
++| `resourcepack`, `shader`, `plugin`, `datapack` | `ContentCommand` |
++| `auth`, `a`, `login` | `AuthCommand` |
++| `settings`, `set`, `s` | `SettingsCommand` |
++| `recent` | `RecentCommand` |
++| `skin`, `java`, `console` | dedicated commands |
++| `help`, `ref`, `version`, `update`, `restart`, `clear`, `exit` | routed inline |
++
++Command classes receive shared services in their constructor and own their
++argument parsing. They print with Spectre.Console and return a `Task`.
++
++## State and persistence
++
++`State/AppState.cs` holds mutable REPL state:
++
++- `ActiveInstance` — the selected instance name
++- `LastSearchHits` — results used for install-by-number
++- session persistence
++
++Setting `ActiveInstance` clears stale search hits and writes `session.json`.
++On startup, `LoadSession()` restores the name only if the instance manifest
++still exists, so deleted instances never leave a broken prompt.
++
++| File | Serialized by | Contains |
++|---|---|---|
++| `session.json` | `AppState` | active instance |
++| `settings.json` | `SettingsService` | theme, language, UI preferences |
++| `accounts.json` | `AuthService` | accounts and tokens (sensitive) |
++| instance manifests | `InstanceStore` | version, loader, launch config |
++
++`Services/PathService.cs` resolves the platform-specific root directory and
++performs a one-time move from the legacy `McSH` directory.
++
++## Authentication
++
++`Services/AuthService.cs` supports two Ely.by paths.
++
++### Device-code OAuth (default)
++
++```text
++launcher                     Ely.by
++   │  POST /oauth2/v1/devicecode │
++   │────────────────────────────►│
++   │  user_code + verification_uri
++   │◄────────────────────────────│
++   │  open browser, poll token    │
++   │  POST /oauth2/v1/token       │
++   │────────────────────────────►│
++   │  access + refresh token      │
++   │◄────────────────────────────│
++   │  GET /account/v1/info        │
++   │────────────────────────────►│
++   │  uuid + username             │
++   │◄────────────────────────────│
++```
++
++The flow handles `authorization_pending` and `slow_down`, requests
++`account_info`, `minecraft_server_session`, and `offline_access`, and refreshes
++tokens transparently. The public client id `ely` is used unless
++`HELIO_ELYBY_CLIENT_ID` overrides it. No client secret is required.
++
++### Password fallback
++
++`helio auth elyby --password` performs the legacy Yggdrasil authenticate and
++refresh calls. The password is used once and never persisted. Accounts with 2FA
++accept `password:2facode`.
++
++### Launch integration
++
++For Ely.by accounts, `Services/GameLaunchService.cs`:
++
++- passes `${user_type}=mojang`
++- adds `-javaagent:<cache>/authlib-injector.jar=ely.by`
++- uses the Ely.by access token as the Minecraft session token
++
++`Services/AuthlibInjectorService.cs` downloads the jar once, verifies its
++SHA-256, and reuses the cached copy.
++
++## Launch pipeline
++
++1. Resolve the target instance and its manifest.
++2. Resolve Java (`JavaService`), downloading a JDK if necessary.
++3. Resolve the Minecraft version and loader (Vanilla, Fabric, Forge, NeoForge,
++   Quilt) through the relevant service.
++4. Ensure libraries and assets are present.
++5. Build the command line from instance config, account, and JVM arguments.
++6. Start the process and track it (`ProcessTracker`).
++7. Optionally stream the console to `helio console`.
++
++## Content
++
++`Services/ModrinthService.cs` is the HTTP client. `ModStore` tracks installed
++files, `ModProfile` snapshots loadouts, and `MrpackService` handles Modrinth
++pack import/export. Content commands share `ContentCommand` with a type enum for
++resource packs, shaders, plugins, and data packs.
++
++## UI and localization
++
++- `UiTheme.cs` defines named themes and the current accent markup.
++- `Services/BannerService.cs` renders the ASCII banner and gradient.
++- `Services/LanguageService.cs` loads `Languages/<code>.json` and falls back to
++  the key, which makes missing translations visible.
++- `Services/SettingsService.cs` applies theme and language at startup and
++  performs one-time migrations (for example, `crimson` → `helio`).
++
++## Extension points
++
++To add a command:
++
++1. Add a handler in the relevant `Commands/*.cs`.
++2. Route the verb in `CommandRouter`.
++3. Add help text in `HelpCommand` plus keys in both language files.
++4. Add tab completions in `Program.cs`.
++5. Document it in `README.md`.
++6. Test interactive and one-shot invocation.
++
++To add a theme:
++
++1. Add a `ThemeDefinition` in `UiTheme.cs`.
++2. Add a banner gradient in `BannerService.cs`.
++3. Add the name to the settings completion list in `Program.cs`.
++4. Update the theme list in the README and language files.
++
++## Design constraints
++
++- **No background services.** Commands are synchronous from the user's point of
++  view; long work shows a spinner.
++- **Never lose user data.** Migrations move or copy; deletes require explicit
++  confirmation.
++- **Provider-aware auth.** Do not assume Microsoft or Ely.by in shared code.
++- **Small dependency surface.** Prefer the standard library and existing
++  packages.
++- **Terminal-first.** If a feature needs a GUI, it probably belongs elsewhere.

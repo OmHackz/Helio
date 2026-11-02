@@ -13,7 +13,7 @@ Need help with HelioMC? Here is where to look.
 
 ## Ask a question
 
-Use [Discussions](https://github.com/OWNER/REPO/discussions) for open-ended
+Use [Discussions](https://github.com/OmHackz/Helio/discussions) for open-ended
 questions, setup help, and ideas. If Discussions are not enabled yet, open a
 question issue with the **Question** template.
 

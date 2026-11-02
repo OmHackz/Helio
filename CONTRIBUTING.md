@@ -38,7 +38,7 @@ By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 ### Build and run
 
 ```bash
-git clone https://github.com/OWNER/REPO.git
+git clone https://github.com/OmHackz/Helio.git
 cd REPO
 
 dotnet restore Helio.csproj
@@ -247,12 +247,6 @@ git push origin main --tags
 The workflow verifies that the tag matches the project version, builds five
 runtime identifiers, generates `SHA256SUMS.txt`, and creates the GitHub release.
 If the tag and version differ, the release fails early.
-
-## Repository maintenance
-
-If you are setting up a fresh fork or a brand-new repository, see
-[`.github/SETUP.md`](.github/SETUP.md) for the checklist (repository slug,
-labels, Discussions, private vulnerability reporting, branch protection).
 
 ## Security and secrets
 

@@ -67,5 +67,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 HelioMC is a fork of [McSH](https://github.com/kalakaritzu/mcsh). For changes
 before the fork, see the upstream repository.
 
-[Unreleased]: https://github.com/OWNER/REPO/compare/v1.0.6...HEAD
-[1.0.6]: https://github.com/OWNER/REPO/releases/tag/v1.0.6
+[Unreleased]: https://github.com/OmHackz/Helio/compare/v1.0.6...HEAD
+[1.0.6]: https://github.com/OmHackz/Helio/releases/tag/v1.0.6

@@ -9,7 +9,7 @@ body:
         Thanks for taking the time to report a bug.
 
         **Before you continue**
-        - Search [existing issues](https://github.com/OWNER/REPO/issues?q=is%3Aissue) first.
+        - Search [existing issues](https://github.com/OmHackz/Helio/issues?q=is%3Aissue) first.
         - Try the latest release.
         - **Never paste account tokens, passwords, or `accounts.json` contents.** Redact UUIDs if you prefer.
 

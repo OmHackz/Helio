@@ -61,7 +61,7 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported privately to the project maintainers. Do **not** open a public issue.
 
 - Preferred: use GitHub's private reporting at
-  <https://github.com/OWNER/REPO/security/advisories/new> and mark the report as
+  <https://github.com/OmHackz/Helio/security/advisories/new> and mark the report as
   a conduct concern.
 - Alternative: contact a maintainer directly through their GitHub profile.
 

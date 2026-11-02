@@ -1,13 +1,12 @@
-# Replace OWNER/REPO with the final GitHub repository slug before publishing.
 blank_issues_enabled: false
 
 contact_links:
   - name: 💬 Discussions
-    url: https://github.com/OWNER/REPO/discussions
+    url: https://github.com/OmHackz/Helio/discussions
     about: Ask open-ended questions, share setups, and suggest ideas.
 
   - name: 🔐 Report a security vulnerability
-    url: https://github.com/OWNER/REPO/security/advisories/new
+    url: https://github.com/OmHackz/Helio/security/advisories/new
     about: Report security issues privately. Do not open a public issue.
 
   - name: 🧭 Ely.by account help

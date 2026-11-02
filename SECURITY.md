@@ -23,7 +23,7 @@ Report privately through GitHub:
 
 Direct link once the repository exists:
 
-<https://github.com/OWNER/REPO/security/advisories/new>
+<https://github.com/OmHackz/Helio/security/advisories/new>
 
 If private reporting is unavailable, contact a maintainer through their GitHub
 profile and ask for a private channel. Do not include exploit details in a
