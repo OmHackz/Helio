@@ -6,7 +6,6 @@
 
 [![Build](https://github.com/OmHackz/Helio/actions/workflows/build.yml/badge.svg)](https://github.com/OmHackz/Helio/actions/workflows/build.yml)
 [![Release](https://github.com/OmHackz/Helio/actions/workflows/release.yml/badge.svg)](https://github.com/OmHackz/Helio/actions/workflows/release.yml)
-[![CodeQL](https://github.com/OmHackz/Helio/actions/workflows/codeql.yml/badge.svg)](https://github.com/OmHackz/Helio/actions/workflows/codeql.yml)
 [![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 [![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS%20%7C%20Windows-orange)](#install)
 [![License](https://img.shields.io/badge/license-see%20LICENSE-lightgrey)](LICENSE)
@@ -413,8 +412,6 @@ The GitHub Actions workflows are ready to use:
 - **Release** (`release.yml`) — triggered by a `v*` tag. It verifies that the
   tag matches `<Version>` in `Helio.csproj`, builds every platform, generates
   `SHA256SUMS.txt`, and creates a GitHub release.
-- **CodeQL** (`codeql.yml`) — weekly and per-change security analysis.
-- **Stale** (`stale.yml`) — keeps the issue tracker tidy.
 
 To cut a release:
 
@@ -423,7 +420,7 @@ To cut a release:
 # 2. Commit the change
 git commit -am "chore(release): 1.0.7"
 git tag v1.0.7
-git push origin main --tags
+git push origin master --tags
 ```
 
 ## Troubleshooting
