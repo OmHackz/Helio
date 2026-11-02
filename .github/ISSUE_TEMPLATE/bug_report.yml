@@ -1,0 +1,116 @@
+name: Bug report
+description: Report a crash, failed launch, broken command, or other unexpected behavior.
+title: "[Bug]: "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+        **Before you continue**
+        - Search [existing issues](https://github.com/OWNER/REPO/issues?q=is%3Aissue) first.
+        - Try the latest release.
+        - **Never paste account tokens, passwords, or `accounts.json` contents.** Redact UUIDs if you prefer.
+
+  - type: input
+    id: version
+    attributes:
+      label: HelioMC version
+      description: Paste the output of `helio version`.
+      placeholder: "HelioMC v1.0.6 (Ely.by build) / .NET 8.0.33 / Arch Linux"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux (x64)
+        - Linux (arm64)
+        - macOS (Apple Silicon)
+        - macOS (Intel)
+        - Windows (x64)
+        - Other / unsure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: How did you install HelioMC?
+      options:
+        - Prebuilt release binary
+        - Built from source
+        - Running with the .NET SDK (`dotnet run`)
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: account
+    attributes:
+      label: Account type
+      description: Which sign-in method were you using when the problem happened?
+      options:
+        - Ely.by (browser OAuth)
+        - Ely.by (password fallback)
+        - No account / offline
+        - Not related to sign-in
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the problem.
+      placeholder: "When I run `helio launch`, the game exits immediately with..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the exact commands you ran, in order.
+      placeholder: |
+        1. helio auth elyby
+        2. helio instance create
+        3. helio launch
+        4. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and error output
+      description: |
+        Paste terminal output, stack traces, or the latest crash report.
+        Run `helio instance crash` to find the newest crash file.
+        Remove tokens, passwords, and personal paths before posting.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and did not find a duplicate.
+          required: true
+        - label: I am using the latest available build.
+          required: true
+        - label: I removed account tokens, passwords, and other secrets from this report.
+          required: true

@@ -1,0 +1,33 @@
+# License status
+
+HelioMC is a fork of [McSH](https://github.com/kalakaritzu/mcsh).
+
+The upstream McSH project does **not** currently declare a license, and this
+fork does not grant any additional rights beyond those you already have under
+applicable law and the upstream project's terms.
+
+In practical terms:
+
+- No open-source license is granted by this repository yet.
+- All rights are reserved by the respective authors.
+- You are responsible for confirming that you have the necessary rights before
+  redistributing HelioMC or any derivative work.
+- If the upstream project adopts a license, this fork will adopt compatible
+  terms and update this file.
+
+This file is a statement of licensing status, not a license grant.
+
+## Third-party components
+
+HelioMC depends on third-party packages and services, each governed by its own
+license:
+
+- [Spectre.Console](https://github.com/spectreconsole/spectre.console) — MIT
+- [Figgle](https://github.com/drewnoakes/figgle) — MIT
+- [fNbt](https://github.com/fragmer/fNbt) — MIT
+- [authlib-injector](https://github.com/yushijinhun/authlib-injector) — AGPL-3.0
+  (downloaded at runtime, not bundled)
+- Minecraft, Mojang, Microsoft, Ely.by, and Modrinth are trademarks or services
+  of their respective owners.
+
+See the upstream repositories for the exact terms of each dependency.

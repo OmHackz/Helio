@@ -1,0 +1,17 @@
+# <type>(<scope>): <short summary>
+#
+# <optional body: why the change is needed, what it affects, trade-offs>
+#
+# Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+# Scopes: auth, instance, launch, mod, modpack, content, settings, ui, i18n, ci, docs
+#
+# Examples:
+#   feat(instance): add top-level select alias
+#   fix(auth): avoid Spectre markup crash in auth accounts
+#   docs: document Ely.by device-code sign-in
+#
+# Footer:
+#   Closes #123
+#   Co-authored-by: Name <email@example.com>
+#
+# Keep the summary under 72 characters. Use the imperative mood.

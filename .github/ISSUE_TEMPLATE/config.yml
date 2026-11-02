@@ -1,0 +1,15 @@
+# Replace OWNER/REPO with the final GitHub repository slug before publishing.
+blank_issues_enabled: false
+
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/OWNER/REPO/discussions
+    about: Ask open-ended questions, share setups, and suggest ideas.
+
+  - name: 🔐 Report a security vulnerability
+    url: https://github.com/OWNER/REPO/security/advisories/new
+    about: Report security issues privately. Do not open a public issue.
+
+  - name: 🧭 Ely.by account help
+    url: https://ely.by/help
+    about: For account, skin, or Ely.by service issues outside HelioMC.

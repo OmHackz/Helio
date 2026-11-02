@@ -1,0 +1,54 @@
+name: Question
+description: Ask how to use HelioMC, configure an instance, or troubleshoot a setup.
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For open-ended chat, consider
+        [Discussions](https://github.com/OWNER/REPO/discussions) instead.
+        Use this form when you have a specific question that can be answered
+        and closed.
+
+  - type: input
+    id: version
+    attributes:
+      label: HelioMC version
+      description: Output of `helio version`.
+      placeholder: "HelioMC v1.0.6 (Ely.by build)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - Installing or updating
+        - Ely.by sign-in
+        - Creating or selecting instances
+        - Mods, modpacks, resource packs, shaders
+        - Java or launch failures
+        - Themes, language, or prompt
+        - Building from source
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: Include what you have already tried.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Relevant output or config
+      description: Redact tokens, passwords, and personal paths.
+      render: shell
+    validations:
+      required: false

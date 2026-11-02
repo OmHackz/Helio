@@ -1,0 +1,134 @@
+name: Build
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+
+jobs:
+  check:
+    name: Build & smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          cache: true
+          cache-dependency-path: Helio.csproj
+
+      - name: Restore
+        run: dotnet restore Helio.csproj
+
+      - name: Build
+        run: dotnet build Helio.csproj -c Release --no-restore
+
+      - name: Validate JSON resources
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in Languages/*.json; do
+            python3 -m json.tool "$file" > /dev/null
+            echo "valid: $file"
+          done
+
+      - name: Smoke test
+        run: dotnet bin/Release/net8.0/helio.dll version
+
+  publish:
+    name: Publish ${{ matrix.rid }}
+    needs: check
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            rid: linux-x64
+          - os: ubuntu-latest
+            rid: linux-arm64
+          - os: windows-latest
+            rid: win-x64
+          - os: macos-15-intel
+            rid: osx-x64
+          - os: macos-15
+            rid: osx-arm64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          cache: true
+          cache-dependency-path: Helio.csproj
+
+      - name: Read version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Helio.csproj | head -n1)"
+          test -n "$version"
+          echo "value=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          dotnet publish Helio.csproj \
+            -c Release \
+            -r "${{ matrix.rid }}" \
+            --self-contained true \
+            -p:PublishSingleFile=true \
+            -p:EnableCompressionInSingleFile=true \
+            -p:IncludeNativeLibrariesForSelfExtract=true \
+            -p:PublishReadyToRun=false \
+            -p:DebugType=None \
+            -p:DebugSymbols=false \
+            -o publish
+
+      - name: Package (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd publish
+          tar -czf "../helio-${{ steps.version.outputs.value }}-${{ matrix.rid }}.tar.gz" .
+          cd ..
+          ls -lh helio-*.tar.gz
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path publish/* -DestinationPath "helio-${{ steps.version.outputs.value }}-${{ matrix.rid }}.zip"
+          Get-ChildItem helio-*.zip | Format-Table Name, Length
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: helio-${{ matrix.rid }}
+          path: |
+            helio-*.tar.gz
+            helio-*.zip
+          if-no-files-found: error
+          retention-days: 14
